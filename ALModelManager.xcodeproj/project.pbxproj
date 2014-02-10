@@ -8,14 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		0F18F8CD18A9204800D7A0F5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F18F8CC18A9204800D7A0F5 /* Foundation.framework */; };
-		0F18F8D218A9204800D7A0F5 /* ALModelManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0F18F8D118A9204800D7A0F5 /* ALModelManager.h */; };
-		0F18F8D418A9204800D7A0F5 /* ALModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F8D318A9204800D7A0F5 /* ALModelManager.m */; };
 		0F18F8DB18A9204800D7A0F5 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F18F8DA18A9204800D7A0F5 /* XCTest.framework */; };
 		0F18F8DC18A9204800D7A0F5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F18F8CC18A9204800D7A0F5 /* Foundation.framework */; };
 		0F18F8DE18A9204800D7A0F5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F18F8DD18A9204800D7A0F5 /* UIKit.framework */; };
 		0F18F8E118A9204800D7A0F5 /* libALModelManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F18F8C918A9204800D7A0F5 /* libALModelManager.a */; };
 		0F18F8E718A9204800D7A0F5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0F18F8E518A9204800D7A0F5 /* InfoPlist.strings */; };
 		0F18F8E918A9204800D7A0F5 /* ALModelManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F8E818A9204800D7A0F5 /* ALModelManagerTests.m */; };
+		0F18F93718A9215500D7A0F5 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F91D18A9215500D7A0F5 /* DataManager.m */; };
+		0F18F93818A9215500D7A0F5 /* ALIntrospection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F92118A9215500D7A0F5 /* ALIntrospection.m */; };
+		0F18F93918A9215500D7A0F5 /* ALModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F92318A9215500D7A0F5 /* ALModelManager.m */; };
+		0F18F93A18A9215500D7A0F5 /* ModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F92518A9215500D7A0F5 /* ModelManager.m */; };
+		0F18F93B18A9215500D7A0F5 /* NSObject+KVOBlockBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F92B18A9215500D7A0F5 /* NSObject+KVOBlockBinding.m */; };
+		0F18F93C18A9215500D7A0F5 /* NSObject+WSKeyPathBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F92D18A9215500D7A0F5 /* NSObject+WSKeyPathBinding.m */; };
+		0F18F93D18A9215500D7A0F5 /* NSObject+WSObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F92F18A9215500D7A0F5 /* NSObject+WSObservation.m */; };
+		0F18F93E18A9215500D7A0F5 /* THBinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F93118A9215500D7A0F5 /* THBinder.m */; };
+		0F18F93F18A9215500D7A0F5 /* THObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F93318A9215500D7A0F5 /* THObserver.m */; };
+		0F18F94018A9215500D7A0F5 /* WSObservationBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F93618A9215500D7A0F5 /* WSObservationBinding.m */; };
+		0F18F94318A9218B00D7A0F5 /* ALCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F94218A9218B00D7A0F5 /* ALCacheManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +44,6 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				0F18F8D218A9204800D7A0F5 /* ALModelManager.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,14 +53,39 @@
 		0F18F8C918A9204800D7A0F5 /* libALModelManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libALModelManager.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F18F8CC18A9204800D7A0F5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0F18F8D018A9204800D7A0F5 /* ALModelManager-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ALModelManager-Prefix.pch"; sourceTree = "<group>"; };
-		0F18F8D118A9204800D7A0F5 /* ALModelManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALModelManager.h; sourceTree = "<group>"; };
-		0F18F8D318A9204800D7A0F5 /* ALModelManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALModelManager.m; sourceTree = "<group>"; };
 		0F18F8D918A9204800D7A0F5 /* ALModelManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ALModelManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F18F8DA18A9204800D7A0F5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		0F18F8DD18A9204800D7A0F5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		0F18F8E418A9204800D7A0F5 /* ALModelManagerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ALModelManagerTests-Info.plist"; sourceTree = "<group>"; };
 		0F18F8E618A9204800D7A0F5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0F18F8E818A9204800D7A0F5 /* ALModelManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALModelManagerTests.m; sourceTree = "<group>"; };
+		0F18F91C18A9215500D7A0F5 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
+		0F18F91D18A9215500D7A0F5 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
+		0F18F92018A9215500D7A0F5 /* ALIntrospection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALIntrospection.h; sourceTree = "<group>"; };
+		0F18F92118A9215500D7A0F5 /* ALIntrospection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALIntrospection.m; sourceTree = "<group>"; };
+		0F18F92218A9215500D7A0F5 /* ALModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALModelManager.h; sourceTree = "<group>"; };
+		0F18F92318A9215500D7A0F5 /* ALModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALModelManager.m; sourceTree = "<group>"; };
+		0F18F92418A9215500D7A0F5 /* ModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelManager.h; sourceTree = "<group>"; };
+		0F18F92518A9215500D7A0F5 /* ModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelManager.m; sourceTree = "<group>"; };
+		0F18F92618A9215500D7A0F5 /* ModelManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelManagerProtocol.h; sourceTree = "<group>"; };
+		0F18F92818A9215500D7A0F5 /* EXTKeyPathCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTKeyPathCoding.h; sourceTree = "<group>"; };
+		0F18F92918A9215500D7A0F5 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
+		0F18F92A18A9215500D7A0F5 /* NSObject+KVOBlockBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+KVOBlockBinding.h"; sourceTree = "<group>"; };
+		0F18F92B18A9215500D7A0F5 /* NSObject+KVOBlockBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+KVOBlockBinding.m"; sourceTree = "<group>"; };
+		0F18F92C18A9215500D7A0F5 /* NSObject+WSKeyPathBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+WSKeyPathBinding.h"; sourceTree = "<group>"; };
+		0F18F92D18A9215500D7A0F5 /* NSObject+WSKeyPathBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+WSKeyPathBinding.m"; sourceTree = "<group>"; };
+		0F18F92E18A9215500D7A0F5 /* NSObject+WSObservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+WSObservation.h"; sourceTree = "<group>"; };
+		0F18F92F18A9215500D7A0F5 /* NSObject+WSObservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+WSObservation.m"; sourceTree = "<group>"; };
+		0F18F93018A9215500D7A0F5 /* THBinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THBinder.h; sourceTree = "<group>"; };
+		0F18F93118A9215500D7A0F5 /* THBinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THBinder.m; sourceTree = "<group>"; };
+		0F18F93218A9215500D7A0F5 /* THObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THObserver.h; sourceTree = "<group>"; };
+		0F18F93318A9215500D7A0F5 /* THObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THObserver.m; sourceTree = "<group>"; };
+		0F18F93418A9215500D7A0F5 /* THObserversAndBinders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THObserversAndBinders.h; sourceTree = "<group>"; };
+		0F18F93518A9215500D7A0F5 /* WSObservationBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSObservationBinding.h; sourceTree = "<group>"; };
+		0F18F93618A9215500D7A0F5 /* WSObservationBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSObservationBinding.m; sourceTree = "<group>"; };
+		0F18F94118A9218B00D7A0F5 /* ALCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALCacheManager.h; sourceTree = "<group>"; };
+		0F18F94218A9218B00D7A0F5 /* ALCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALCacheManager.m; sourceTree = "<group>"; };
+		0F18F94418A9238F00D7A0F5 /* ALModelManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALModelManagerProtocol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,8 +143,9 @@
 		0F18F8CE18A9204800D7A0F5 /* ALModelManager */ = {
 			isa = PBXGroup;
 			children = (
-				0F18F8D118A9204800D7A0F5 /* ALModelManager.h */,
-				0F18F8D318A9204800D7A0F5 /* ALModelManager.m */,
+				0F18F91A18A9215500D7A0F5 /* ALCacheManager */,
+				0F18F91B18A9215500D7A0F5 /* ALDataManager */,
+				0F18F91E18A9215500D7A0F5 /* ALModelManager */,
 				0F18F8CF18A9204800D7A0F5 /* Supporting Files */,
 			);
 			path = ALModelManager;
@@ -141,6 +175,70 @@
 				0F18F8E518A9204800D7A0F5 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0F18F91A18A9215500D7A0F5 /* ALCacheManager */ = {
+			isa = PBXGroup;
+			children = (
+				0F18F94118A9218B00D7A0F5 /* ALCacheManager.h */,
+				0F18F94218A9218B00D7A0F5 /* ALCacheManager.m */,
+			);
+			path = ALCacheManager;
+			sourceTree = "<group>";
+		};
+		0F18F91B18A9215500D7A0F5 /* ALDataManager */ = {
+			isa = PBXGroup;
+			children = (
+				0F18F91C18A9215500D7A0F5 /* DataManager.h */,
+				0F18F91D18A9215500D7A0F5 /* DataManager.m */,
+			);
+			path = ALDataManager;
+			sourceTree = "<group>";
+		};
+		0F18F91E18A9215500D7A0F5 /* ALModelManager */ = {
+			isa = PBXGroup;
+			children = (
+				0F18F91F18A9215500D7A0F5 /* ALIntrospection */,
+				0F18F92218A9215500D7A0F5 /* ALModelManager.h */,
+				0F18F92318A9215500D7A0F5 /* ALModelManager.m */,
+				0F18F94418A9238F00D7A0F5 /* ALModelManagerProtocol.h */,
+				0F18F92418A9215500D7A0F5 /* ModelManager.h */,
+				0F18F92518A9215500D7A0F5 /* ModelManager.m */,
+				0F18F92618A9215500D7A0F5 /* ModelManagerProtocol.h */,
+				0F18F92718A9215500D7A0F5 /* THObserversAndBinders */,
+			);
+			path = ALModelManager;
+			sourceTree = "<group>";
+		};
+		0F18F91F18A9215500D7A0F5 /* ALIntrospection */ = {
+			isa = PBXGroup;
+			children = (
+				0F18F92018A9215500D7A0F5 /* ALIntrospection.h */,
+				0F18F92118A9215500D7A0F5 /* ALIntrospection.m */,
+			);
+			path = ALIntrospection;
+			sourceTree = "<group>";
+		};
+		0F18F92718A9215500D7A0F5 /* THObserversAndBinders */ = {
+			isa = PBXGroup;
+			children = (
+				0F18F92818A9215500D7A0F5 /* EXTKeyPathCoding.h */,
+				0F18F92918A9215500D7A0F5 /* metamacros.h */,
+				0F18F92A18A9215500D7A0F5 /* NSObject+KVOBlockBinding.h */,
+				0F18F92B18A9215500D7A0F5 /* NSObject+KVOBlockBinding.m */,
+				0F18F92C18A9215500D7A0F5 /* NSObject+WSKeyPathBinding.h */,
+				0F18F92D18A9215500D7A0F5 /* NSObject+WSKeyPathBinding.m */,
+				0F18F92E18A9215500D7A0F5 /* NSObject+WSObservation.h */,
+				0F18F92F18A9215500D7A0F5 /* NSObject+WSObservation.m */,
+				0F18F93018A9215500D7A0F5 /* THBinder.h */,
+				0F18F93118A9215500D7A0F5 /* THBinder.m */,
+				0F18F93218A9215500D7A0F5 /* THObserver.h */,
+				0F18F93318A9215500D7A0F5 /* THObserver.m */,
+				0F18F93418A9215500D7A0F5 /* THObserversAndBinders.h */,
+				0F18F93518A9215500D7A0F5 /* WSObservationBinding.h */,
+				0F18F93618A9215500D7A0F5 /* WSObservationBinding.m */,
+			);
+			path = THObserversAndBinders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,7 +322,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F18F8D418A9204800D7A0F5 /* ALModelManager.m in Sources */,
+				0F18F93B18A9215500D7A0F5 /* NSObject+KVOBlockBinding.m in Sources */,
+				0F18F93918A9215500D7A0F5 /* ALModelManager.m in Sources */,
+				0F18F93C18A9215500D7A0F5 /* NSObject+WSKeyPathBinding.m in Sources */,
+				0F18F94318A9218B00D7A0F5 /* ALCacheManager.m in Sources */,
+				0F18F93A18A9215500D7A0F5 /* ModelManager.m in Sources */,
+				0F18F94018A9215500D7A0F5 /* WSObservationBinding.m in Sources */,
+				0F18F93818A9215500D7A0F5 /* ALIntrospection.m in Sources */,
+				0F18F93E18A9215500D7A0F5 /* THBinder.m in Sources */,
+				0F18F93718A9215500D7A0F5 /* DataManager.m in Sources */,
+				0F18F93D18A9215500D7A0F5 /* NSObject+WSObservation.m in Sources */,
+				0F18F93F18A9215500D7A0F5 /* THObserver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

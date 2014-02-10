@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ALModelManagerProtocol.h"
 
-@interface ALModelManager : NSObject
+@interface ALModelManager : NSObject <ALModelManagerProtocol>
 
 @end
