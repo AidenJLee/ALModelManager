@@ -11,4 +11,7 @@
 
 @interface ALModelManager : NSObject <ALModelManagerProtocol>
 
+- (void)addObserverForKeyPaths:(NSString *)keyPaths;
+- (void)removeObserverForKeyPaths:(NSString *)keyPaths;
+
 @end

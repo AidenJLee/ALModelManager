@@ -1,32 +1,22 @@
 //
-//  NSObject+WSKeyPathBinding.m
-//  Local
+//  NSObject+ObjectBinding.m
+//  ALModelManager
 //
-//  Created by Ray Hilton on 27/06/12.
-//  Copyright (c) 2012 Wirestorm Pty Ltd. All rights reserved.
+//  Created by HoJun Lee on 2014. 2. 12..
+//  Copyright (c) 2014년 HoJun Lee. All rights reserved.
 //
 
-#import "NSObject+WSKeyPathBinding.h"
-#import "NSObject+WSObservation.h"
+#import "NSObject+ObjectBinding.h"
+#import "NSObject+Observation.h"
+
 #import <objc/runtime.h>
 
+#define OBJ_BINDING_KEY @"objectBindersKey"
 
-#define ASSOCIATED_OBJ_BINDINGS_KEY @"rayh_block_based_bindings"
+@implementation NSObject (ObjectBinding)
 
-@implementation NSObject (WSKeyPathBinding)
-
--(NSMutableArray*)allKeyPathBindings
-{
-	NSMutableArray *objects = objc_getAssociatedObject(self, ASSOCIATED_OBJ_BINDINGS_KEY);
-    if(!objects) {
-        objects = [NSMutableArray array];
-        objc_setAssociatedObject(self, ASSOCIATED_OBJ_BINDINGS_KEY, objects, OBJC_ASSOCIATION_RETAIN);
-    }
-    
-    return objects;
-}
-
-
+#pragma mark -
+#pragma mark - Public Method Implement
 - (void)bindSourceKeyPath:(NSString *)sourcePath to:(id)target targetKeyPath:(NSString *)targetPath reverseMapping:(BOOL)reverseMapping
 {
     [[self allKeyPathBindings] addObject:[self observe:self keyPath:sourcePath block:^(id observed, NSDictionary *change) {
@@ -44,7 +34,7 @@
 - (void)unbindKeyPath:(NSString *)keyPath
 {
     NSArray *bindings = [self allKeyPathBindings];
-    for(WSObservationBinding *binding in bindings)
+    for(ALObservationObject *binding in bindings)
     {
         if([binding.keyPath isEqualToString:keyPath])
         {
@@ -57,7 +47,7 @@
 
 - (void)unbindAllKeyPaths
 {
-    for(WSObservationBinding *binding in [self allKeyPathBindings])
+    for(ALObservationObject *binding in [self allKeyPathBindings])
     {
         [binding invalidate];
         binding.block = nil;
@@ -65,4 +55,17 @@
     
     [[self allKeyPathBindings] removeAllObjects];
 }
+
+#pragma mark -
+#pragma mark - Private Method
+-(NSMutableArray*)allKeyPathBindings
+{
+	NSMutableArray *objects = objc_getAssociatedObject(self, OBJ_BINDING_KEY);
+    if(!objects) {
+        objects = [NSMutableArray array];
+        objc_setAssociatedObject(self, OBJ_BINDING_KEY, objects, OBJC_ASSOCIATION_RETAIN);
+    }
+    return objects;
+}
+
 @end

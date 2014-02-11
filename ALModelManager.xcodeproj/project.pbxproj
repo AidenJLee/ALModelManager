@@ -14,17 +14,14 @@
 		0F18F8E118A9204800D7A0F5 /* libALModelManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F18F8C918A9204800D7A0F5 /* libALModelManager.a */; };
 		0F18F8E718A9204800D7A0F5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0F18F8E518A9204800D7A0F5 /* InfoPlist.strings */; };
 		0F18F8E918A9204800D7A0F5 /* ALModelManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F8E818A9204800D7A0F5 /* ALModelManagerTests.m */; };
-		0F18F93718A9215500D7A0F5 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F91D18A9215500D7A0F5 /* DataManager.m */; };
 		0F18F93818A9215500D7A0F5 /* ALIntrospection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F92118A9215500D7A0F5 /* ALIntrospection.m */; };
 		0F18F93918A9215500D7A0F5 /* ALModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F92318A9215500D7A0F5 /* ALModelManager.m */; };
-		0F18F93A18A9215500D7A0F5 /* ModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F92518A9215500D7A0F5 /* ModelManager.m */; };
-		0F18F93B18A9215500D7A0F5 /* NSObject+KVOBlockBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F92B18A9215500D7A0F5 /* NSObject+KVOBlockBinding.m */; };
-		0F18F93C18A9215500D7A0F5 /* NSObject+WSKeyPathBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F92D18A9215500D7A0F5 /* NSObject+WSKeyPathBinding.m */; };
-		0F18F93D18A9215500D7A0F5 /* NSObject+WSObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F92F18A9215500D7A0F5 /* NSObject+WSObservation.m */; };
-		0F18F93E18A9215500D7A0F5 /* THBinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F93118A9215500D7A0F5 /* THBinder.m */; };
-		0F18F93F18A9215500D7A0F5 /* THObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F93318A9215500D7A0F5 /* THObserver.m */; };
-		0F18F94018A9215500D7A0F5 /* WSObservationBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F93618A9215500D7A0F5 /* WSObservationBinding.m */; };
-		0F18F94318A9218B00D7A0F5 /* ALCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18F94218A9218B00D7A0F5 /* ALCacheManager.m */; };
+		0F1E37AA18AA7B180043CF78 /* NSObject+ObjectBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1E37A918AA7B180043CF78 /* NSObject+ObjectBinding.m */; };
+		0F1E37AD18AA82010043CF78 /* NSObject+ObjectObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1E37AC18AA82010043CF78 /* NSObject+ObjectObserver.m */; };
+		0F647C2518A9295A00EC960A /* ALDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F647C2418A9295A00EC960A /* ALDataManager.m */; };
+		0F647C2A18A9298F00EC960A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F647C2918A9298F00EC960A /* User.m */; };
+		0F92D4C518AA67910028B7D4 /* ALObservationObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F92D4C418AA67910028B7D4 /* ALObservationObject.m */; };
+		0F92D4C818AA6EE60028B7D4 /* NSObject+Observation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F92D4C718AA6EE60028B7D4 /* NSObject+Observation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,33 +56,24 @@
 		0F18F8E418A9204800D7A0F5 /* ALModelManagerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ALModelManagerTests-Info.plist"; sourceTree = "<group>"; };
 		0F18F8E618A9204800D7A0F5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0F18F8E818A9204800D7A0F5 /* ALModelManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALModelManagerTests.m; sourceTree = "<group>"; };
-		0F18F91C18A9215500D7A0F5 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
-		0F18F91D18A9215500D7A0F5 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
 		0F18F92018A9215500D7A0F5 /* ALIntrospection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALIntrospection.h; sourceTree = "<group>"; };
 		0F18F92118A9215500D7A0F5 /* ALIntrospection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALIntrospection.m; sourceTree = "<group>"; };
 		0F18F92218A9215500D7A0F5 /* ALModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALModelManager.h; sourceTree = "<group>"; };
 		0F18F92318A9215500D7A0F5 /* ALModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALModelManager.m; sourceTree = "<group>"; };
-		0F18F92418A9215500D7A0F5 /* ModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelManager.h; sourceTree = "<group>"; };
-		0F18F92518A9215500D7A0F5 /* ModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelManager.m; sourceTree = "<group>"; };
-		0F18F92618A9215500D7A0F5 /* ModelManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelManagerProtocol.h; sourceTree = "<group>"; };
-		0F18F92818A9215500D7A0F5 /* EXTKeyPathCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTKeyPathCoding.h; sourceTree = "<group>"; };
-		0F18F92918A9215500D7A0F5 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
-		0F18F92A18A9215500D7A0F5 /* NSObject+KVOBlockBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+KVOBlockBinding.h"; sourceTree = "<group>"; };
-		0F18F92B18A9215500D7A0F5 /* NSObject+KVOBlockBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+KVOBlockBinding.m"; sourceTree = "<group>"; };
-		0F18F92C18A9215500D7A0F5 /* NSObject+WSKeyPathBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+WSKeyPathBinding.h"; sourceTree = "<group>"; };
-		0F18F92D18A9215500D7A0F5 /* NSObject+WSKeyPathBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+WSKeyPathBinding.m"; sourceTree = "<group>"; };
-		0F18F92E18A9215500D7A0F5 /* NSObject+WSObservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+WSObservation.h"; sourceTree = "<group>"; };
-		0F18F92F18A9215500D7A0F5 /* NSObject+WSObservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+WSObservation.m"; sourceTree = "<group>"; };
-		0F18F93018A9215500D7A0F5 /* THBinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THBinder.h; sourceTree = "<group>"; };
-		0F18F93118A9215500D7A0F5 /* THBinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THBinder.m; sourceTree = "<group>"; };
-		0F18F93218A9215500D7A0F5 /* THObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THObserver.h; sourceTree = "<group>"; };
-		0F18F93318A9215500D7A0F5 /* THObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THObserver.m; sourceTree = "<group>"; };
-		0F18F93418A9215500D7A0F5 /* THObserversAndBinders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THObserversAndBinders.h; sourceTree = "<group>"; };
-		0F18F93518A9215500D7A0F5 /* WSObservationBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSObservationBinding.h; sourceTree = "<group>"; };
-		0F18F93618A9215500D7A0F5 /* WSObservationBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSObservationBinding.m; sourceTree = "<group>"; };
-		0F18F94118A9218B00D7A0F5 /* ALCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALCacheManager.h; sourceTree = "<group>"; };
-		0F18F94218A9218B00D7A0F5 /* ALCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALCacheManager.m; sourceTree = "<group>"; };
 		0F18F94418A9238F00D7A0F5 /* ALModelManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALModelManagerProtocol.h; sourceTree = "<group>"; };
+		0F1E37A718AA7A410043CF78 /* ALObservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALObservation.h; sourceTree = "<group>"; };
+		0F1E37A818AA7B180043CF78 /* NSObject+ObjectBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+ObjectBinding.h"; sourceTree = "<group>"; };
+		0F1E37A918AA7B180043CF78 /* NSObject+ObjectBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ObjectBinding.m"; sourceTree = "<group>"; };
+		0F1E37AB18AA82010043CF78 /* NSObject+ObjectObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+ObjectObserver.h"; sourceTree = "<group>"; };
+		0F1E37AC18AA82010043CF78 /* NSObject+ObjectObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ObjectObserver.m"; sourceTree = "<group>"; };
+		0F647C2318A9295A00EC960A /* ALDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDataManager.h; sourceTree = "<group>"; };
+		0F647C2418A9295A00EC960A /* ALDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDataManager.m; sourceTree = "<group>"; };
+		0F647C2818A9298F00EC960A /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		0F647C2918A9298F00EC960A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		0F92D4C318AA67910028B7D4 /* ALObservationObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALObservationObject.h; sourceTree = "<group>"; };
+		0F92D4C418AA67910028B7D4 /* ALObservationObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALObservationObject.m; sourceTree = "<group>"; };
+		0F92D4C618AA6EE60028B7D4 /* NSObject+Observation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Observation.h"; sourceTree = "<group>"; };
+		0F92D4C718AA6EE60028B7D4 /* NSObject+Observation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Observation.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,7 +131,7 @@
 		0F18F8CE18A9204800D7A0F5 /* ALModelManager */ = {
 			isa = PBXGroup;
 			children = (
-				0F18F91A18A9215500D7A0F5 /* ALCacheManager */,
+				0F647C2618A9298400EC960A /* ModelSample */,
 				0F18F91B18A9215500D7A0F5 /* ALDataManager */,
 				0F18F91E18A9215500D7A0F5 /* ALModelManager */,
 				0F18F8CF18A9204800D7A0F5 /* Supporting Files */,
@@ -177,20 +165,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		0F18F91A18A9215500D7A0F5 /* ALCacheManager */ = {
-			isa = PBXGroup;
-			children = (
-				0F18F94118A9218B00D7A0F5 /* ALCacheManager.h */,
-				0F18F94218A9218B00D7A0F5 /* ALCacheManager.m */,
-			);
-			path = ALCacheManager;
-			sourceTree = "<group>";
-		};
 		0F18F91B18A9215500D7A0F5 /* ALDataManager */ = {
 			isa = PBXGroup;
 			children = (
-				0F18F91C18A9215500D7A0F5 /* DataManager.h */,
-				0F18F91D18A9215500D7A0F5 /* DataManager.m */,
+				0F647C2318A9295A00EC960A /* ALDataManager.h */,
+				0F647C2418A9295A00EC960A /* ALDataManager.m */,
 			);
 			path = ALDataManager;
 			sourceTree = "<group>";
@@ -199,13 +178,10 @@
 			isa = PBXGroup;
 			children = (
 				0F18F91F18A9215500D7A0F5 /* ALIntrospection */,
+				0F647C2B18A9CAC300EC960A /* ALObserversAndBinders */,
+				0F18F94418A9238F00D7A0F5 /* ALModelManagerProtocol.h */,
 				0F18F92218A9215500D7A0F5 /* ALModelManager.h */,
 				0F18F92318A9215500D7A0F5 /* ALModelManager.m */,
-				0F18F94418A9238F00D7A0F5 /* ALModelManagerProtocol.h */,
-				0F18F92418A9215500D7A0F5 /* ModelManager.h */,
-				0F18F92518A9215500D7A0F5 /* ModelManager.m */,
-				0F18F92618A9215500D7A0F5 /* ModelManagerProtocol.h */,
-				0F18F92718A9215500D7A0F5 /* THObserversAndBinders */,
 			);
 			path = ALModelManager;
 			sourceTree = "<group>";
@@ -219,26 +195,37 @@
 			path = ALIntrospection;
 			sourceTree = "<group>";
 		};
-		0F18F92718A9215500D7A0F5 /* THObserversAndBinders */ = {
+		0F647C2618A9298400EC960A /* ModelSample */ = {
 			isa = PBXGroup;
 			children = (
-				0F18F92818A9215500D7A0F5 /* EXTKeyPathCoding.h */,
-				0F18F92918A9215500D7A0F5 /* metamacros.h */,
-				0F18F92A18A9215500D7A0F5 /* NSObject+KVOBlockBinding.h */,
-				0F18F92B18A9215500D7A0F5 /* NSObject+KVOBlockBinding.m */,
-				0F18F92C18A9215500D7A0F5 /* NSObject+WSKeyPathBinding.h */,
-				0F18F92D18A9215500D7A0F5 /* NSObject+WSKeyPathBinding.m */,
-				0F18F92E18A9215500D7A0F5 /* NSObject+WSObservation.h */,
-				0F18F92F18A9215500D7A0F5 /* NSObject+WSObservation.m */,
-				0F18F93018A9215500D7A0F5 /* THBinder.h */,
-				0F18F93118A9215500D7A0F5 /* THBinder.m */,
-				0F18F93218A9215500D7A0F5 /* THObserver.h */,
-				0F18F93318A9215500D7A0F5 /* THObserver.m */,
-				0F18F93418A9215500D7A0F5 /* THObserversAndBinders.h */,
-				0F18F93518A9215500D7A0F5 /* WSObservationBinding.h */,
-				0F18F93618A9215500D7A0F5 /* WSObservationBinding.m */,
+				0F647C2718A9298400EC960A /* User */,
 			);
-			path = THObserversAndBinders;
+			path = ModelSample;
+			sourceTree = "<group>";
+		};
+		0F647C2718A9298400EC960A /* User */ = {
+			isa = PBXGroup;
+			children = (
+				0F647C2818A9298F00EC960A /* User.h */,
+				0F647C2918A9298F00EC960A /* User.m */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		0F647C2B18A9CAC300EC960A /* ALObserversAndBinders */ = {
+			isa = PBXGroup;
+			children = (
+				0F1E37A718AA7A410043CF78 /* ALObservation.h */,
+				0F92D4C318AA67910028B7D4 /* ALObservationObject.h */,
+				0F92D4C418AA67910028B7D4 /* ALObservationObject.m */,
+				0F92D4C618AA6EE60028B7D4 /* NSObject+Observation.h */,
+				0F92D4C718AA6EE60028B7D4 /* NSObject+Observation.m */,
+				0F1E37AB18AA82010043CF78 /* NSObject+ObjectObserver.h */,
+				0F1E37AC18AA82010043CF78 /* NSObject+ObjectObserver.m */,
+				0F1E37A818AA7B180043CF78 /* NSObject+ObjectBinding.h */,
+				0F1E37A918AA7B180043CF78 /* NSObject+ObjectBinding.m */,
+			);
+			path = ALObserversAndBinders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -322,17 +309,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F18F93B18A9215500D7A0F5 /* NSObject+KVOBlockBinding.m in Sources */,
+				0F647C2A18A9298F00EC960A /* User.m in Sources */,
+				0F92D4C518AA67910028B7D4 /* ALObservationObject.m in Sources */,
 				0F18F93918A9215500D7A0F5 /* ALModelManager.m in Sources */,
-				0F18F93C18A9215500D7A0F5 /* NSObject+WSKeyPathBinding.m in Sources */,
-				0F18F94318A9218B00D7A0F5 /* ALCacheManager.m in Sources */,
-				0F18F93A18A9215500D7A0F5 /* ModelManager.m in Sources */,
-				0F18F94018A9215500D7A0F5 /* WSObservationBinding.m in Sources */,
+				0F92D4C818AA6EE60028B7D4 /* NSObject+Observation.m in Sources */,
+				0F647C2518A9295A00EC960A /* ALDataManager.m in Sources */,
 				0F18F93818A9215500D7A0F5 /* ALIntrospection.m in Sources */,
-				0F18F93E18A9215500D7A0F5 /* THBinder.m in Sources */,
-				0F18F93718A9215500D7A0F5 /* DataManager.m in Sources */,
-				0F18F93D18A9215500D7A0F5 /* NSObject+WSObservation.m in Sources */,
-				0F18F93F18A9215500D7A0F5 /* THObserver.m in Sources */,
+				0F1E37AD18AA82010043CF78 /* NSObject+ObjectObserver.m in Sources */,
+				0F1E37AA18AA7B180043CF78 /* NSObject+ObjectBinding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,6 +501,7 @@
 				0F18F8EE18A9204800D7A0F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0F18F8EF18A9204800D7A0F5 /* Build configuration list for PBXNativeTarget "ALModelManagerTests" */ = {
 			isa = XCConfigurationList;
@@ -525,6 +510,7 @@
 				0F18F8F118A9204800D7A0F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

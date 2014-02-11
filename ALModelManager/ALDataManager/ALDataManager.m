@@ -1,28 +1,26 @@
 //
-//  DataManager.m
-//  DateQ
+//  ALDataManager.m
+//  ALModelManager
 //
-//  Created by HoJun Lee on 2014. 2. 1..
-//  Copyright (c) 2014년 Plan2white. All rights reserved.
+//  Created by HoJun Lee on 2014. 2. 11..
+//  Copyright (c) 2014년 HoJun Lee. All rights reserved.
 //
 
-#import "DataManager.h"
-#import "ALIntrospection.h"
+#import "ALDataManager.h"
 
+@implementation ALDataManager
 
-@implementation DataManager
-
-static DataManager *_dataManager = nil;
-+ (instancetype)sharedDataManager
+static ALDataManager *_dataManager = nil;
++ (ALDataManager *)sharedALDataManager
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _dataManager = [[DataManager alloc] initInstance];
+        _dataManager = [[ALDataManager alloc] initInstance];
     });
     return _dataManager;
 }
 
-+ (void)releaseDataManager
++ (void)releaseALDataManager
 {
     _dataManager = nil;
 }
@@ -37,7 +35,7 @@ static DataManager *_dataManager = nil;
 {
     self = [super init];
     if (self) {
-        _results = [[NSMutableDictionary alloc] initWithCapacity:8];
+        
     }
     return self;
 }
@@ -55,5 +53,4 @@ static DataManager *_dataManager = nil;
 //    NSString *objectKey = [ALIntrospection classNameFromObject:object];
 //    return [self.managedDatas objectForKey:objectKey];
 //}
-
 @end

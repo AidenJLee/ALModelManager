@@ -1,6 +1,6 @@
 //
 //  ALIntrospection.h
-//  DateQ
+//  ALModelManager
 //
 //  Created by HoJun Lee on 2014. 2. 6..
 //  Copyright (c) 2014년 Plan2white. All rights reserved.
