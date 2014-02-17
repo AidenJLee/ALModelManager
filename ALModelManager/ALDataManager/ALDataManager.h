@@ -6,12 +6,9 @@
 //  Copyright (c) 2014년 HoJun Lee. All rights reserved.
 //
 
-/** 모델 값은 프로젝트마다 다르기 때문에 모델에 대한것은 프로젝트에 맞게 변경 */
-#import "User.h"
-
 @interface ALDataManager : NSObject
 
-@property (strong, nonatomic) User *user;
+// Property값은 런타임에 추가 한다.
 
 + (ALDataManager *)sharedALDataManager;
 + (void)releaseALDataManager;

@@ -11,6 +11,8 @@
 
 @interface ALModelManager : NSObject <ALModelManagerProtocol>
 
+@property (strong, nonatomic) NSMutableDictionary *observerKeys;
+
 - (void)addObserverForKeyPaths:(NSString *)keyPaths;
 - (void)removeObserverForKeyPaths:(NSString *)keyPaths;
 

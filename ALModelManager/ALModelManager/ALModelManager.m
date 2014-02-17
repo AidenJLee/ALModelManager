@@ -51,6 +51,13 @@
 - (void)addObserverForKeyPaths:(NSString *)keyPaths
 {
     NSParameterAssert(keyPaths);
+    /* keypath case
+     1. collection : collection name.property names  - ex) users.name, users.id, users.email, users.*
+     2. model : model name.property name - ex) User.user.name, User.user.id, User.user.email, User.user.*
+     
+     model의 경우 어떤 모델인지에 대한 경로가 하나 더 있다.
+     */
+    
     //    NSDictionary *dicKeyPath = [self separateKeyPath:keyPaths];
     
     //    NSArray *arrKeyPath = [keyPaths componentsSeparatedByString:@"."];
@@ -89,6 +96,9 @@
     NSArray *strKeyPaths = [keyPath componentsSeparatedByString:@","];
     
     for (NSString *strAbsoluteKey in strKeyPaths) {
+        
+        // 사용자가 등록 하려는 keypath들을 모두 넣어 놓고 중복되지 않도록 관리
+        [self.observerKeys setObject:strKeyPaths forKey:keyPath];
         
         // 공백 및 개행 제거 후 KeyPath 분리 = user.name -> @[ @"user" , @"name" ] - 처음 값은 모델 key값 이라고 정의
         NSMutableArray *arrSeparatedKeyPath = [[strAbsoluteKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]

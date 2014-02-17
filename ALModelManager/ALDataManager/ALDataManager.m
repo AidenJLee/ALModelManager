@@ -42,6 +42,9 @@ static ALDataManager *_dataManager = nil;
 
 #pragma mark -
 #pragma mark - Setter Getter
+// 아래와 같이 자동으로 모델명을 찾아서 Setter Getter를 넣을 수도 있다.
+// 하지만 외부에서 컨트롤 하기 때문에 자동으로 생성되는 Setter와 Getter를 사용하는것도 좋은 방법이다
+
 //- (void)setModelObject:(id)object
 //{
 //    NSString *objectKey = [ALIntrospection classNameFromObject:object];
@@ -53,4 +56,5 @@ static ALDataManager *_dataManager = nil;
 //    NSString *objectKey = [ALIntrospection classNameFromObject:object];
 //    return [self.managedDatas objectForKey:objectKey];
 //}
+
 @end
