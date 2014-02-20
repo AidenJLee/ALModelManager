@@ -29,7 +29,7 @@
 
 //객체에서 주어진 이름의 프로퍼티를 가지고 있는가?
 + (BOOL)hasPropertyAtObject:(id)object name:(NSString*)name {
-    return [self hasPropertyAtClass:[object class] name:name ];
+    return [self hasPropertyAtClass:[object class] name:name];
 }
 
 //클래스에서 주어진 이름의 프로퍼티를 가지고 있는가?

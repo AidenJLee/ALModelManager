@@ -58,7 +58,7 @@
 
 #pragma mark -
 #pragma mark - Private Method
--(NSMutableArray*)allKeyPathBindings
+- (NSMutableArray *)allKeyPathBindings
 {
 	NSMutableArray *objects = objc_getAssociatedObject(self, OBJ_BINDING_KEY);
     if(!objects) {

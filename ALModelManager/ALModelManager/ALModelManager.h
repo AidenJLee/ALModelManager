@@ -11,9 +11,11 @@
 
 @interface ALModelManager : NSObject <ALModelManagerProtocol>
 
-@property (strong, nonatomic) NSMutableDictionary *observerKeys;
++ (ALModelManager *)sharedInstance;
++ (void)releaseInstance;
 
-- (void)addObserverForKeyPaths:(NSString *)keyPaths;
-- (void)removeObserverForKeyPaths:(NSString *)keyPaths;
+- (void)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths patchSeletor:(SEL)seletor;
+- (void)addKVOForDictionary:(NSDictionary *)info;
+- (void)removeKVOForDictionary:(NSDictionary *)info;
 
 @end

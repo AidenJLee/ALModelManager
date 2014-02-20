@@ -11,7 +11,7 @@
 @implementation ALDataManager
 
 static ALDataManager *_dataManager = nil;
-+ (ALDataManager *)sharedALDataManager
++ (ALDataManager *)sharedInstance
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -20,7 +20,7 @@ static ALDataManager *_dataManager = nil;
     return _dataManager;
 }
 
-+ (void)releaseALDataManager
++ (void)releaseInstance
 {
     _dataManager = nil;
 }

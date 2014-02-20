@@ -11,6 +11,6 @@
 @protocol ALModelManagerProtocol <NSObject>
 
 @required
-- (id)initWithTarget:(id)target patchSeletor:(SEL)seletor;
+- (void)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths patchSeletor:(SEL)seletor;
 
 @end

@@ -74,7 +74,7 @@
 
 #pragma mark -
 #pragma mark - Private Method
--(NSMutableArray*)allObjectObservers
+- (NSMutableArray *)allObjectObservers
 {
 	NSMutableArray *objects = objc_getAssociatedObject(self, OBJ_OBSERVING_KEY);
     if(!objects) {

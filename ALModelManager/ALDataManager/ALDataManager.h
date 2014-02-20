@@ -9,8 +9,10 @@
 @interface ALDataManager : NSObject
 
 // Property값은 런타임에 추가 한다.
+@property (strong, nonatomic) NSMutableArray *observerObjects;
+@property (strong, nonatomic) NSMutableArray *observerObject;
 
-+ (ALDataManager *)sharedALDataManager;
-+ (void)releaseALDataManager;
++ (ALDataManager *)sharedInstance;
++ (void)releaseInstance;
 
 @end
