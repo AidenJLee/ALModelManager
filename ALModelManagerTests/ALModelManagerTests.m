@@ -8,7 +8,8 @@
 
 #import <XCTest/XCTest.h>
 #import "ALIntrospection.h"
-#import "ALDataManager.h"
+#import "ALModelManager.h"
+#import "NSObject+Properties.h"
 
 #import "User.h"
 
@@ -23,7 +24,7 @@
 - (void)setUp
 {
     [super setUp];
-    User *user = [[User alloc] init];
+    
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
@@ -35,20 +36,28 @@
 
 - (void)testExample
 {
+//    User *user = [[User alloc] init];
     
-    objc_setAssociatedObject([ALDataManager sharedInstance], @"models", @{@"hi": @"i`m model"}, OBJC_ASSOCIATION_RETAIN);
-    NSLog(@"%@", objc_getAssociatedObject([ALDataManager sharedInstance], @"models"));
+    NSString *kvcStyleString = @"userss";
     
-    [ALIntrospection setPropertyValueOfObject:[ALDataManager sharedInstance] name:@"model" value:@{ @"dynamic": @"oh ye~" }];
+    NSLog(@"styleString : %@ " , [kvcStyleString substringToIndex:1]);
+    NSLog(@"styleString : %@ " , [kvcStyleString substringFromIndex:1]);
     
-    NSLog(@" %@", [ALIntrospection getPropertyNamesOfClass:[[ALDataManager sharedInstance] class] superInquiry:NO]);
-    if ([ALIntrospection hasPropertyAtObject:[ALDataManager sharedInstance] name:@"observerObjects"]) {
-        NSLog(@"YES");
-    } else {
-        NSLog(@"NO");
-    }
+//    objc_setAssociatedObject([ALDataManager sharedInstance], @"models", @{@"hi": @"i`m model"}, OBJC_ASSOCIATION_RETAIN);
+//    NSLog(@"%@", objc_getAssociatedObject([ALDataManager sharedInstance], @"models"));
+//    
+//    [ALIntrospection setPropertyValueOfObject:[ALDataManager sharedInstance] name:@"model" value:@{ @"dynamic": @"oh ye~" }];
+//    
+//    NSLog(@"In P : %@ " , [ALIntrospection getPropertyValueOfObject:[ALDataManager sharedInstance] name:@"observerObjects"]);
+//    
+//    NSLog(@" %@", [ALIntrospection getPropertyNamesOfClass:[[ALModelManager sharedInstance] class] superInquiry:NO]);
+//    if ([ALIntrospection hasPropertyAtObject:[ALDataManager sharedInstance] name:@"observerObjects"]) {
+//        NSLog(@"YES");
+//    } else {
+//        NSLog(@"NO");
+//    }
     
-    [self separateKeyPath:@"User.user.id, NSDictionary.motels.name, User.some.property,  User.user.*"];
+//    [self separateKeyPath:@"User.user.id, NSDictionary.motels.name, User.some.property,  User.user.*"];
     XCTAssertNil(nil, @"test complete");
     
 }

@@ -12,12 +12,9 @@
 
 #import <objc/runtime.h>
 
-#define OBSERVING_MANAGEMENT_KEY @"observationsManagementKey"
+#define OBSERVING_MANAGEMENT_KEY @"observingManagementKey"
 
 @interface ALModelManager ()
-
-// KVO 오브젝트를 관리 하기 위한 Dictionary
-@property (strong, nonatomic) NSMutableArray *observerObjects;
 
 @end
 
@@ -31,7 +28,7 @@ static ALModelManager *_modelManager = nil;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _modelManager = [[ALModelManager alloc] initInstance];
+        _modelManager = [[ALModelManager alloc] initModelManager];
     });
     return _modelManager;
 }
@@ -41,19 +38,21 @@ static ALModelManager *_modelManager = nil;
     _modelManager = nil;
 }
 
+- (id)initModelManager
+{
+    self = [super init];
+    if (self) {
+        // do something~  ex) Init...
+    }
+    return self;
+}
+
+#pragma mark -
+#pragma mark - Init&Dealloc
 - (id)init
 {
     NSAssert(NO, @"Can`t create instance With Init Method");
     return nil;
-}
-
-- (id)initInstance
-{
-    self = [super init];
-    if (self) {
-        _observerObjects = [[NSMutableArray alloc] initWithCapacity:10];
-    }
-    return self;
 }
 
 - (void)dealloc
@@ -86,21 +85,23 @@ static ALModelManager *_modelManager = nil;
     
     // 하나 이상의 KeyPath를 (,)기준으로 분리
     /* keyPath = @[ user.*, chat._id, chat.male ] */
-    NSArray *strKeyPaths = [keyPaths componentsSeparatedByString:@","];
+    NSArray *arrKeyPaths = [keyPaths componentsSeparatedByString:@","];
     
-    for (NSString *strKeypath in strKeyPaths) {
+    for (NSString *strKeypath in arrKeyPaths) {
         
-        // 공백 및 개행 제거
+        // 공백 및 개행 제거 [ @" ", @"\n" ]
         NSString *strAbsoluteKey = [strKeypath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
         // KeyPath를 .으로 분리
         NSMutableArray *arrSeparatedKeyPath = [strAbsoluteKey componentsSeparatedByString:@"."].mutableCopy;
         
         // 처음값이 모델 또는 컬렉션 명이라고 판단
-        NSString *strModelKey = [[arrSeparatedKeyPath firstObject] capitalizedString];
+        NSString *strModelName = [[arrSeparatedKeyPath firstObject] capitalizedString];
         
         // 모델이 있는지 체크
-        Class modelClass = NSClassFromString(strModelKey);
+        Class modelClass = NSClassFromString(strModelName);
+        id model = [modelClass alloc];
+        [model infoDictionary];
         
         // Model key 지움
         [arrSeparatedKeyPath removeObjectAtIndex:0];
@@ -110,19 +111,19 @@ static ALModelManager *_modelManager = nil;
             for (NSString *strKey in arrSeparatedKeyPath) {
                 if ([strKey isEqualToString:@"*"]) {
                     
-                    NSArray *propertyNames = [ALIntrospection getPropertyNamesOfClass:modelClass superInquiry:YES];
+                    NSArray *propertyNames = [ALIntrospection getPropertyNamesOfClass:modelClass superInquiry:NO];
                     for (NSString *propertyKey in propertyNames) {
                         
                         NSLog(@"%@", [strAbsoluteKey stringByReplacingOccurrencesOfString:@"*" withString:propertyKey]);
                         NSDictionary *observeDic = @{
-                                                     @"modelkey": strModelKey,
+                                                     @"modelkey": strModelName,
                                                      @"keypath": [strAbsoluteKey stringByReplacingOccurrencesOfString:@"*" withString:propertyKey],
                                                      @"target": target,
                                                      @"selector": NSStringFromSelector(seletor)
                                                      };
                         
                         // KVO 적용 및 객체 관리
-                        [self addKVOForDictionary:observeDic];
+//                        [self addKVOForDictionary:observeDic];
                         NSLog(@"%@", observeDic);
                         
                     }
@@ -133,14 +134,14 @@ static ALModelManager *_modelManager = nil;
         } else {
             
             NSDictionary *observeDic = @{
-                                         @"modelkey": strModelKey,
+                                         @"modelkey": strModelName,
                                          @"keypath": strAbsoluteKey,
                                          @"target": target,
                                          @"selector": NSStringFromSelector(seletor)
                                          };
             
             // KVO 적용 및 객체 관리
-            [self addKVOForDictionary:observeDic];
+//            [self addKVOForDictionary:observeDic];
             NSLog(@"%@", observeDic);
             
         }
@@ -149,39 +150,17 @@ static ALModelManager *_modelManager = nil;
     
 }
 
-/**
-
- *
- *  @param keyPaths 감시하고자 하는 Object의 Property값들의 String
- *                  ex) @"NSDictionary.users, User.user.email"
- */
-- (void)addKVOForDictionary:(NSDictionary *)info
+- (void)setDataObject:(id)dataObject forKey:(NSString *)key
 {
-    NSParameterAssert(info);
-    
-    if (![self.observerObjects containsObject:info]) {
-        
-        
-        
-        [self.observerObjects addObject:info];
-    }
     
 }
 
-- (void)removeKVOForDictionary:(NSDictionary *)info
-{
-    //    [model k:@"board.list" v:@[@{@"num":1,@"title":"제목1"}, @{@"num":1,@"title":"제목1"}]];
-    //    [model k:@"system.uuid" v:@"uuid...."];
-    //    NSMutableArray * arr = [model g:@"board.list"];
-    //    [arr addObject:@{@"num":1,@"title":"제목1"}];
-    //    [arr replaceObjectAtIndex:1 withObject:@{@"num":1,@"title":"제목1"}];
-}
 
 #pragma mark -
 #pragma mark - Private Method
 - (BOOL)Contains:(NSString *)strSearchTerm on:(NSString *)strText
 {
-    return [strText rangeOfString:strSearchTerm options:NSCaseInsensitiveSearch].location == NSNotFound? FALSE : TRUE;
+    return [strText rangeOfString:strSearchTerm options:NSCaseInsensitiveSearch].location == NSNotFound ? FALSE : TRUE;
 }
 
 /* Start : keyPath = @"user.*, chat._id, chat.male" */
@@ -245,9 +224,8 @@ static ALModelManager *_modelManager = nil;
  
  #pragma clang diagnostic pop
  */
-#pragma mark -
-#pragma mark - Private Method
-- (NSMutableArray *)allObjectObservers
+
+- (NSMutableArray *)allObserverObjects
 {
 	NSMutableArray *objects = objc_getAssociatedObject(self, OBSERVING_MANAGEMENT_KEY);
     if(!objects) {
