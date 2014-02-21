@@ -21,7 +21,7 @@
 + (ALModelManager *)sharedInstance;
 + (void)releaseInstance;
 
-- (BOOL)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths block:(ObservationObjectBlock)block;
+- (NSArray *)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths block:(ObservationObjectBlock)block;
 - (BOOL)removeTarget:(id)target observerForKeyPaths:(NSString *)keyPaths;
 - (BOOL)setDataObject:(id)object forPropertyKey:(NSString *)key;
 
