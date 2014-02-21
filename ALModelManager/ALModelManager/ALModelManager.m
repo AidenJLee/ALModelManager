@@ -203,7 +203,7 @@ static ALModelManager *_modelManager = nil;
 - (BOOL)addKVOForKeyPath:(NSString *)keypath observationInfo:(NSDictionary *)info
 {
     
-    id observingObject = self.observationManager[keypath];
+    id observingObject = _observationManager[keypath];
     // property를 가지고 있는지 체크
     if (observingObject && ![observingObject containsObject:info]) {
         
@@ -211,7 +211,7 @@ static ALModelManager *_modelManager = nil;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         
-        NSDictionary *dicResponse = [self.observationManager valueForKey:keypath];
+        NSDictionary *dicResponse = [_observationManager valueForKey:keypath];
         
         id target   = [dicResponse objectForKey:MODEL_KEY];
         NSString *strSeletor  = [dicResponse objectForKey:RESPONSE_TARGET];
@@ -221,7 +221,7 @@ static ALModelManager *_modelManager = nil;
 #pragma clang diagnostic pop
         
         // 관리 오브젝트 등록
-        [self.observationManager setObject:info forKey:keypath];
+        [_observationManager setObject:info forKey:keypath];
     } else {
         return NO;
     }
