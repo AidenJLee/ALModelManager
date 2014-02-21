@@ -36,14 +36,18 @@
 
 - (void)testExample
 {
+    [[ALModelManager sharedInstance] didActiveManager];
+    [[ALModelManager sharedInstance] addTarget:self observerForKeyPaths:@"users, users" block:^(NSString *observedKey, id changeObject) {
+        NSLog(@"observedKey : %@ " , observedKey);
+        NSLog(@"change object : %@ " , changeObject);
+    }];
+    
     NSDictionary *userDic = @{
                               @"_id": @"13579",
                               @"facebook": @"534985034579",
                               @"email": @"entist@me.com",
                               @"username": @"aidenjlee"
                               };
-    
-//    User *user = [[User alloc] initWithDictionary:userDic];
     
     [[ALModelManager sharedInstance] setDataObject:userDic forPropertyKey:@"users"];
     

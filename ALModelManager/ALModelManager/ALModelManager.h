@@ -10,6 +10,8 @@
 #import "ALObservation.h"
 #import "ALModelManagerProtocol.h"
 
+typedef void (^ALResponseBlock)(NSString *observedKey, id changeObject);
+
 @interface ALModelManager : NSObject <ALModelManagerProtocol>
 
 // 이곳에 Data Model들을 Property로 등록한다.
@@ -21,7 +23,7 @@
 + (ALModelManager *)sharedInstance;
 + (void)releaseInstance;
 
-- (NSArray *)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths block:(ObservationObjectBlock)block;
+- (NSArray *)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock;
 - (BOOL)removeTarget:(id)target observerForKeyPaths:(NSString *)keyPaths;
 - (BOOL)setDataObject:(id)object forPropertyKey:(NSString *)key;
 

@@ -30,18 +30,26 @@
                         options:(NSKeyValueObservingOptions)options
                           block:(ObservationObjectBlock)block
 {
-    ALObservationObject *binding = [[ALObservationObject alloc] init];
     
-    binding.owner = self;
-    binding.source = object;
-    binding.keyPath = keyPath;
-    binding.block = block;
+    for(ALObservationObject *binding in [NSArray arrayWithArray:[self allObservations]]) {
+        if(![binding.source isEqual:object] && ![binding.keyPath isEqualToString:keyPath]) {
+            
+            ALObservationObject *createBinding = [[ALObservationObject alloc] init];
+            
+            createBinding.owner = self;
+            createBinding.source = object;
+            createBinding.keyPath = keyPath;
+            createBinding.block = block;
+            
+            [[self allObservations] addObject:createBinding];
+            [object addObserver:createBinding forKeyPath:keyPath options:options context:(__bridge void *)createBinding];
+            
+            return createBinding;
+            
+        }
+    }
     
-    [[self allObservations] addObject:binding];
-    
-    [object addObserver:binding forKeyPath:keyPath options:options context:(__bridge void *)binding];
-    
-    return binding;
+    return nil;
 }
 
 - (void)removeAllObservations

@@ -63,9 +63,9 @@ static ALModelManager *_modelManager = nil;
 
 - (void)didTerminateManager
 {
-    for (NSDictionary *dicObserverInfo in _observationManager) {
-        [dicObserverInfo[@"someKey"] removeAllObservations];
-    }
+//    for (NSDictionary *dicObserverInfo in _observationManager) {
+//        [dicObserverInfo[@"someKey"] removeAllObservations];
+//    }
 }
 
 #pragma mark -
@@ -93,7 +93,7 @@ static ALModelManager *_modelManager = nil;
  *  @return Observer를 적용한 KeyPath 목록
  */
 // @"users, users.*, hotels, hotels.brand"
-- (NSArray *)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths block:(ObservationObjectBlock)block
+- (NSArray *)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
 {
     
     NSParameterAssert(target);
@@ -111,7 +111,12 @@ static ALModelManager *_modelManager = nil;
         if (!arrTargets) {
             
             // KVO 등록
-            [self.users addObserverForKeyPath:@"users" owner:target block:block];
+            [self observe:self keyPath:@"users" block:^(id observed, NSDictionary *change) {
+                responseBlock(@"users", [change valueForKey:NSKeyValueChangeNewKey]);
+            }];
+            [self.users addObserverForKeyPath:@"users" owner:target block:^(id observed, NSDictionary *change) {
+                responseBlock(@"users", [change valueForKey:NSKeyValueChangeNewKey]);
+            }];
             
             // 관리 오브젝트 등록
             [_observationManager setObject:@[target].mutableCopy forKey:keypath];
@@ -119,7 +124,9 @@ static ALModelManager *_modelManager = nil;
         } else if (![arrTargets containsObject:target]) {
             
             // KVO 등록
-            [self.users addObserverForKeyPath:@"users" owner:target block:block];
+            [self.users addObserverForKeyPath:@"users" owner:target block:^(id observed, NSDictionary *change) {
+                responseBlock(@"users", [change valueForKey:NSKeyValueChangeNewKey]);
+            }];
             
             // 관리 오브젝트 등록
             [_observationManager[keypath] addObject:target];
@@ -209,18 +216,6 @@ static ALModelManager *_modelManager = nil;
         for (NSString *key in testDic) {
             
         }
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        
-        NSDictionary *dicResponse = [_observationManager valueForKey:keypath];
-        
-        id target   = [dicResponse objectForKey:MODEL_KEY];
-        NSString *strSeletor  = [dicResponse objectForKey:RESPONSE_TARGET];
-        
-        [target performSelector:NSSelectorFromString(strSeletor) withObject:[info objectForKey:@"test"]];   // Object 가져 올 키 변경 해야 함
-        
-#pragma clang diagnostic pop
         
         // 관리 오브젝트 등록
         [_observationManager setObject:info forKey:keypath];

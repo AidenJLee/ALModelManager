@@ -8,14 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-NSString * const MODEL_KEY          = @"modelKey";
-NSString * const RESPONSE_TARGET    = @"responseTarget";
-NSString * const CALLBACK_SELECTOR  = @"callbackSeletor";
-
 @protocol ALModelManagerProtocol <NSObject>
 
 @required
-
 - (void)didActiveManager;
 - (void)didTerminateManager;
 
