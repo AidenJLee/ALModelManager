@@ -36,12 +36,20 @@
 
 - (void)testExample
 {
-//    User *user = [[User alloc] init];
+    
+    User *user = [[User alloc] init];
     
     NSString *kvcStyleString = @"userss";
     
     NSLog(@"styleString : %@ " , [kvcStyleString substringToIndex:1]);
     NSLog(@"styleString : %@ " , [kvcStyleString substringFromIndex:1]);
+    
+    NSLog(@"user : %@ " , user.username);
+    
+    [user setValue:@"aidenjlee" forKey:@"username"];
+    
+    NSLog(@"modify user : %@ " , user.username);
+    
     
 //    objc_setAssociatedObject([ALDataManager sharedInstance], @"models", @{@"hi": @"i`m model"}, OBJC_ASSOCIATION_RETAIN);
 //    NSLog(@"%@", objc_getAssociatedObject([ALDataManager sharedInstance], @"models"));

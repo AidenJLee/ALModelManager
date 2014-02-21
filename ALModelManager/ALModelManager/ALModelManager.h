@@ -11,6 +11,10 @@
 
 @interface ALModelManager : NSObject <ALModelManagerProtocol>
 
+// 이곳에 Data Model들을 Property로 등록한다.
+// 외부에 singleton이면서 DataManager 역활을 하는 Object를 두었는데 싱글톤 남발인듯 하여 이곳으로 변경했다.
+// 이곳에는 다른 Property는 등록하지 않는걸 추천한다. 필요한 변수가 있다면 내부 변수로 사용하는게 좋다.
+// Sample Property
 @property (strong, nonatomic) NSDictionary *user;
 
 + (ALModelManager *)sharedInstance;
