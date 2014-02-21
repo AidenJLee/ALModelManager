@@ -24,7 +24,7 @@
 - (void)setUp
 {
     [super setUp];
-    
+    [[ALModelManager sharedInstance] didActiveManager];
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
@@ -36,6 +36,12 @@
 
 - (void)testExample
 {
+    NSDictionary *userDic = @{
+                              @"_id": @"13579",
+                              @"facebook": @"534985034579",
+                              @"email": @"entist@me.com",
+                              @"username": @"aidenjlee"
+                              };
     
     User *user = [[User alloc] init];
    
@@ -48,9 +54,9 @@
     
     NSLog(@"user : %@ " , user.username);
     
-    [user setValue:@"aidenjlee" forKey:@"username"];
+    [[ALModelManager sharedInstance] setDataObject:userDic forPropertyKey:@"users"];
     
-    NSLog(@"modify user : %@ " , user.username);
+//    NSLog(@"collectiob : %@ " , [ALModelManager sharedInstance].users);
     
     
 //    objc_setAssociatedObject([ALDataManager sharedInstance], @"models", @{@"hi": @"i`m model"}, OBJC_ASSOCIATION_RETAIN);
