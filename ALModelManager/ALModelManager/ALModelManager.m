@@ -7,12 +7,13 @@
 //
 
 #import "ALModelManager.h"
-#import "ALObservation.h"
 #import "ALIntrospection.h"
 
 #import <objc/runtime.h>
 
-#define OBSERVING_MANAGEMENT_KEY @"observingManagementKey"
+#define OBSERVING_TARGET_KEY @"responseTarget"
+#define OBSERVING_CALLBACK_KEY @"callbackSeletor"
+
 
 @interface ALModelManager () {
     
@@ -62,9 +63,9 @@ static ALModelManager *_modelManager = nil;
 
 - (void)didTerminateManager
 {
-    _observationManager = nil;
-    _propertyNames      = nil;
-    _collectionNames    = nil;
+    for (NSDictionary *dicObserverInfo in _observationManager) {
+        [dicObserverInfo[@"someKey"] removeAllObservations];
+    }
 }
 
 #pragma mark -
@@ -98,21 +99,14 @@ static ALModelManager *_modelManager = nil;
  *  @param keyPaths 감시할 대상들 다수의 keyPath를 지원 - ex) @"user.*, chat._id, chat.male"
  *  @param seletor  변경시 콜백
  */
-- (BOOL)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths patchSeletor:(SEL)seletor
+- (BOOL)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths block:(ObservationObjectBlock)block
 {
     
     NSParameterAssert(target);
     NSParameterAssert(keyPaths);
-    NSParameterAssert(seletor);
     
     NSMutableDictionary *responseDictionary = @{
-                                                @"user.name": @[
-                                                        @{
-                                                            @"model": @"모델 명",
-                                                            @"target": @"반환 대상",
-                                                            @"seletor": @"콜백 대상"
-                                                            }
-                                                        ]
+                                                @"user.name": @[ self ]
                                                 };
     
     
@@ -184,6 +178,11 @@ static ALModelManager *_modelManager = nil;
     
 }
 
+- (BOOL)removeTarget:(id)target observerForKeyPaths:(NSString *)keyPaths
+{
+    return YES;
+}
+
 - (BOOL)setDataObject:(id)object forPropertyKey:(NSString *)key;
 {
     
@@ -207,6 +206,10 @@ static ALModelManager *_modelManager = nil;
     // property를 가지고 있는지 체크
     if (observingObject && ![observingObject containsObject:info]) {
         
+        NSDictionary *testDic = @{ @"a": @"b" };
+        for (NSString *key in testDic) {
+            
+        }
         
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -229,57 +232,9 @@ static ALModelManager *_modelManager = nil;
     
 }
 
-/* Start : keyPath = @"user.*, chat._id, chat.male" */
-//- (NSDictionary *)separateKeyPath:(NSString *)keyPath
-//{
-//    // 반환 객체
-//    NSMutableDictionary *dicKeyPath = [NSMutableDictionary new];
-//    
-//    // 하나 이상의 KeyPath를 (,)기준으로 분리 = @[ user.*, chat._id, chat.male ]
-//    NSArray *strKeyPaths = [keyPath componentsSeparatedByString:@","];
-//    
-//    for (NSString *strKeypath in strKeyPaths) {
-//        
-//        // 공백 및 개행 제거
-//        NSString *strAbsoluteKey = [strKeypath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-//        
-//        
-//        // 공백 및 개행 제거 후 KeyPath 분리 = user.name -> @[ @"user" , @"name" ] - 처음 값은 모델 key값 이라고 정의
-//        NSMutableArray *arrSeparatedKeyPath = [[strAbsoluteKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
-//                                               componentsSeparatedByString:@"."].mutableCopy;
-//        // model key = ex) user.name = @"User"
-//        NSString *strModelKey = [[arrSeparatedKeyPath firstObject] capitalizedString];
-//        [arrSeparatedKeyPath removeObjectAtIndex:0];    // Model key 지움
-//        if (![dicKeyPath objectForKey:strModelKey]) {
-//            [dicKeyPath setObject:[NSMutableArray array] forKey:strModelKey];
-//        }
-//        
-//        Class modelClass = NSClassFromString(strModelKey);
-//        NSParameterAssert(modelClass);  // Model이 있는지 검사
-//        
-//        for (NSString *strKey in arrSeparatedKeyPath) {
-//            
-//            if ([strKey isEqualToString:@"*"]) {
-//                
-//                NSArray *propertyNames = [ALIntrospection getPropertyNamesOfClass:modelClass superInquiry:NO];
-//                for (NSString *propertyKey in propertyNames) {
-//                    [dicKeyPath[strModelKey] addObject:propertyKey];
-//                }
-//                
-//            } else {
-//                [dicKeyPath[strModelKey] addObject:strKey];
-//            }
-//            
-//        }
-//        
-//    }
-//    
-//    return dicKeyPath;
-//}
-
-- (BOOL)ContainString:(NSString *)searchString onTextString:(NSString *)strTextString
+- (BOOL)ContainString:(NSString *)strSearch onText:(NSString *)strText
 {
-    return [strTextString rangeOfString:searchString options:NSCaseInsensitiveSearch].location == NSNotFound ? FALSE : TRUE;
+    return [strText rangeOfString:strSearch options:NSCaseInsensitiveSearch].location == NSNotFound ? FALSE : TRUE;
 }
 
 @end

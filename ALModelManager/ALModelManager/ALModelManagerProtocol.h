@@ -15,8 +15,7 @@ NSString * const CALLBACK_SELECTOR  = @"callbackSeletor";
 @protocol ALModelManagerProtocol <NSObject>
 
 @required
-- (BOOL)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths patchSeletor:(SEL)seletor;
-- (BOOL)setDataObject:(id)object forPropertyKey:(NSString *)key;
+
 - (void)didActiveManager;
 - (void)didTerminateManager;
 
