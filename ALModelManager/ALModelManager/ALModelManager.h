@@ -17,10 +17,6 @@
 @property (strong, nonatomic) NSDictionary *users;  // This is a Sample Model!
 
 
-
-// 주의! - 옵저빙 객체 관리용. 변경 하지 마시오.
-@property (strong, nonatomic) NSMutableDictionary *observationManager;
-
 + (ALModelManager *)sharedInstance;
 + (void)releaseInstance;
 

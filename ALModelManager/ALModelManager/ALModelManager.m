@@ -8,7 +8,6 @@
 
 #import "ALModelManager.h"
 #import "ALObservation.h"
-#import "NSObject+Properties.h"
 #import "ALIntrospection.h"
 
 #import <objc/runtime.h>
@@ -16,7 +15,11 @@
 #define OBSERVING_MANAGEMENT_KEY @"observingManagementKey"
 
 @interface ALModelManager () {
-    NSArray *_propertyNames;
+    
+    NSMutableDictionary *_observationManager;   // 옵저빙 객체 관리용
+    NSArray *_propertyNames;                    // App에서 사용 할 Data객체들의 Property 이름 배열
+    NSArray *_collectionNames;                  // App에서 사용 할 Data객체들이 Collection 인지 판별하기 위한 Collection 이름 배열
+    
 }
 
 @end
@@ -53,13 +56,15 @@ static ALModelManager *_modelManager = nil;
 - (void)didActiveManager
 {
     _observationManager = [[NSMutableDictionary alloc] initWithCapacity:10];
-    _propertyNames = [ALIntrospection getPropertyNamesOfClass:[self class] superInquiry:NO];
+    _propertyNames      = [ALIntrospection getPropertyNamesOfClass:[self class] superInquiry:NO];
+    _collectionNames    = @[ @"NSArray", @"NSMutableArray", @"NSDictionary", @"NSMutableDictionary", @"NSSet", @"NSMutableSet", @"NSHashTable", @"NSMapTable" ];
 }
 
 - (void)didTerminateManager
 {
     _observationManager = nil;
     _propertyNames      = nil;
+    _collectionNames    = nil;
 }
 
 #pragma mark -
@@ -74,6 +79,7 @@ static ALModelManager *_modelManager = nil;
 {
     _observationManager = nil;
     _propertyNames      = nil;
+    _collectionNames    = nil;
 }
 
 
@@ -181,6 +187,7 @@ static ALModelManager *_modelManager = nil;
 - (BOOL)setDataObject:(id)object forPropertyKey:(NSString *)key;
 {
     
+    // ALModelManager가 key에 해당하는 Property를 가지고 있는지 체크
     if (![_propertyNames containsObject:key]) {
         [self setValue:object forKey:key];
     } else {
@@ -193,16 +200,13 @@ static ALModelManager *_modelManager = nil;
 
 #pragma mark -
 #pragma mark - Private Method
-- (BOOL)ContainString:(NSString *)searchString onTextString:(NSString *)strTextString
-{
-    return [strTextString rangeOfString:searchString options:NSCaseInsensitiveSearch].location == NSNotFound ? FALSE : TRUE;
-}
-
 - (BOOL)addKVOForKeyPath:(NSString *)keypath observationInfo:(NSDictionary *)info
 {
     
+    id observingObject = self.observationManager[keypath];
     // property를 가지고 있는지 체크
-    if (![_propertyNames containsObject:keypath]) {
+    if (observingObject && ![observingObject containsObject:info]) {
+        
         
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -212,7 +216,7 @@ static ALModelManager *_modelManager = nil;
         id target   = [dicResponse objectForKey:MODEL_KEY];
         NSString *strSeletor  = [dicResponse objectForKey:RESPONSE_TARGET];
         
-        [target performSelector:NSSelectorFromString(strSeletor) withObject:[info objectForKey:@"test"]];   // Object 가져 올 키 변경
+        [target performSelector:NSSelectorFromString(strSeletor) withObject:[info objectForKey:@"test"]];   // Object 가져 올 키 변경 해야 함
         
 #pragma clang diagnostic pop
         
@@ -273,5 +277,9 @@ static ALModelManager *_modelManager = nil;
 //    return dicKeyPath;
 //}
 
+- (BOOL)ContainString:(NSString *)searchString onTextString:(NSString *)strTextString
+{
+    return [strTextString rangeOfString:searchString options:NSCaseInsensitiveSearch].location == NSNotFound ? FALSE : TRUE;
+}
 
 @end
