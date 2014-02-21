@@ -68,9 +68,11 @@
 	NSMutableString *absoluteSetterName = @"set".mutableCopy;
     [absoluteSetterName appendString:capitalizedStringName];
     
-	if ([self instancesRespondToSelector:NSSelectorFromString(absoluteSetterName)] == NO)
-		[NSException raise:NSInternalInconsistencyException
+	if ([self instancesRespondToSelector:NSSelectorFromString(absoluteSetterName)] == NO) {
+        [NSException raise:NSInternalInconsistencyException
 					format:@"target : %@, \n property : '%@' \n result : does not respond to the default getter", self, absoluteSetterName];
+    }
+		
     
 	return NSSelectorFromString(absoluteSetterName);
     

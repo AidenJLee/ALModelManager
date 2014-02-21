@@ -14,11 +14,7 @@
 
 #define OBSERVING_MANAGEMENT_KEY @"observingManagementKey"
 
-@interface ALModelManager () {
-    
-    NSMutableDictionary *_observationManager;
-    
-}
+@interface ALModelManager ()
 
 @end
 
@@ -26,7 +22,7 @@
 @implementation ALModelManager
 
 #pragma mark -
-#pragma mark Init
+#pragma mark SIngleton Create & Release
 static ALModelManager *_modelManager = nil;
 + (ALModelManager *)sharedInstance
 {
@@ -53,7 +49,7 @@ static ALModelManager *_modelManager = nil;
 }
 
 #pragma mark -
-#pragma mark - Init&Dealloc
+#pragma mark - Init & Dealloc
 - (id)init
 {
     NSAssert(NO, @"Can`t create instance With Init Method");
@@ -167,7 +163,7 @@ static ALModelManager *_modelManager = nil;
     
 }
 
-- (void)setDataObject:(id)object forPropertyKeyPath:(NSString *)keyPath;
+- (void)setDataObject:(id)object forPropertyKey:(NSString *)key;
 {
     
 }
@@ -239,6 +235,7 @@ static ALModelManager *_modelManager = nil;
  #pragma clang diagnostic pop
  */
 
+// 이걸 쓸까... 내부 변수를 쓸까~
 - (NSMutableArray *)allObserverObjects
 {
 	NSMutableArray *objects = objc_getAssociatedObject(self, OBSERVING_MANAGEMENT_KEY);

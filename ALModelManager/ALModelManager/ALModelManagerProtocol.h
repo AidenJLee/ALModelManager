@@ -12,6 +12,6 @@
 
 @required
 - (void)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths patchSeletor:(SEL)seletor;
-- (void)setDataObject:(id)object forPropertyKeyPath:(NSString *)keyPath;
+- (void)setDataObject:(id)object forPropertyKey:(NSString *)key;
 
 @end
