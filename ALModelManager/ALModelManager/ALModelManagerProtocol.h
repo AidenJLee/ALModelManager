@@ -8,10 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+NSString * const MODEL_KEY          = @"modelKey";
+NSString * const RESPONSE_TARGET    = @"responseTarget";
+NSString * const CALLBACK_SELECTOR  = @"callbackSeletor";
+
 @protocol ALModelManagerProtocol <NSObject>
 
 @required
-- (void)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths patchSeletor:(SEL)seletor;
-- (void)setDataObject:(id)object forPropertyKey:(NSString *)key;
+- (BOOL)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths patchSeletor:(SEL)seletor;
+- (BOOL)setDataObject:(id)object forPropertyKey:(NSString *)key;
+- (void)didActiveManager;
+- (void)didTerminateManager;
 
 @end

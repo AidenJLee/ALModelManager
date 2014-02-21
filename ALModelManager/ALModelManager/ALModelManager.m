@@ -8,13 +8,16 @@
 
 #import "ALModelManager.h"
 #import "ALObservation.h"
+#import "NSObject+Properties.h"
 #import "ALIntrospection.h"
 
 #import <objc/runtime.h>
 
 #define OBSERVING_MANAGEMENT_KEY @"observingManagementKey"
 
-@interface ALModelManager ()
+@interface ALModelManager () {
+    NSArray *_propertyNames;
+}
 
 @end
 
@@ -42,10 +45,21 @@ static ALModelManager *_modelManager = nil;
 {
     self = [super init];
     if (self) {
-        // do something~  ex) Init...
-        _observationManager = [[NSMutableDictionary alloc] init];
+        // do something~  ex) Init
     }
     return self;
+}
+
+- (void)didActiveManager
+{
+    _observationManager = [[NSMutableDictionary alloc] initWithCapacity:10];
+    _propertyNames = [ALIntrospection getPropertyNamesOfClass:[self class] superInquiry:NO];
+}
+
+- (void)didTerminateManager
+{
+    _observationManager = nil;
+    _propertyNames      = nil;
 }
 
 #pragma mark -
@@ -59,6 +73,7 @@ static ALModelManager *_modelManager = nil;
 - (void)dealloc
 {
     _observationManager = nil;
+    _propertyNames      = nil;
 }
 
 
@@ -77,7 +92,7 @@ static ALModelManager *_modelManager = nil;
  *  @param keyPaths 감시할 대상들 다수의 keyPath를 지원 - ex) @"user.*, chat._id, chat.male"
  *  @param seletor  변경시 콜백
  */
-- (void)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths patchSeletor:(SEL)seletor
+- (BOOL)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths patchSeletor:(SEL)seletor
 {
     
     NSParameterAssert(target);
@@ -93,8 +108,7 @@ static ALModelManager *_modelManager = nil;
                                                             }
                                                         ]
                                                 };
-    /*
-     */
+    
     
     // 하나 이상의 KeyPath를 (,)기준으로 분리
     NSArray *arrKeyPaths = [keyPaths componentsSeparatedByString:@","];     /* keyPath = @[ user.*, chat._id, chat.male ] */
@@ -160,20 +174,55 @@ static ALModelManager *_modelManager = nil;
 //        }
         
     }
+    return YES;
     
 }
 
-- (void)setDataObject:(id)object forPropertyKey:(NSString *)key;
+- (BOOL)setDataObject:(id)object forPropertyKey:(NSString *)key;
 {
+    
+    if (![_propertyNames containsObject:key]) {
+        [self setValue:object forKey:key];
+    } else {
+        return NO;
+    }
+    return YES;
     
 }
 
 
 #pragma mark -
 #pragma mark - Private Method
-- (BOOL)Contains:(NSString *)strSearchTerm on:(NSString *)strText
+- (BOOL)ContainString:(NSString *)searchString onTextString:(NSString *)strTextString
 {
-    return [strText rangeOfString:strSearchTerm options:NSCaseInsensitiveSearch].location == NSNotFound ? FALSE : TRUE;
+    return [strTextString rangeOfString:searchString options:NSCaseInsensitiveSearch].location == NSNotFound ? FALSE : TRUE;
+}
+
+- (BOOL)addKVOForKeyPath:(NSString *)keypath observationInfo:(NSDictionary *)info
+{
+    
+    // property를 가지고 있는지 체크
+    if (![_propertyNames containsObject:keypath]) {
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        
+        NSDictionary *dicResponse = [self.observationManager valueForKey:keypath];
+        
+        id target   = [dicResponse objectForKey:MODEL_KEY];
+        NSString *strSeletor  = [dicResponse objectForKey:RESPONSE_TARGET];
+        
+        [target performSelector:NSSelectorFromString(strSeletor) withObject:[info objectForKey:@"test"]];   // Object 가져 올 키 변경
+        
+#pragma clang diagnostic pop
+        
+        // 관리 오브젝트 등록
+        [self.observationManager setObject:info forKey:keypath];
+    } else {
+        return NO;
+    }
+    return YES;
+    
 }
 
 /* Start : keyPath = @"user.*, chat._id, chat.male" */
@@ -224,26 +273,5 @@ static ALModelManager *_modelManager = nil;
 //    return dicKeyPath;
 //}
 
-
-/*
- // 응답값을 seletor로 반환 해주는 부분
- #pragma clang diagnostic push
- #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
- 
- [_target performSelector:_patchSeletor withObject:newObject];
- 
- #pragma clang diagnostic pop
- */
-
-// 이걸 쓸까... 내부 변수를 쓸까~
-- (NSMutableArray *)allObserverObjects
-{
-	NSMutableArray *objects = objc_getAssociatedObject(self, OBSERVING_MANAGEMENT_KEY);
-    if(!objects) {
-        objects = [NSMutableArray array];
-        objc_setAssociatedObject(self, OBSERVING_MANAGEMENT_KEY, objects, OBJC_ASSOCIATION_RETAIN);
-    }
-    return objects;
-}
 
 @end
