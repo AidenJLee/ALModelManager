@@ -83,7 +83,7 @@ static ALModelManager *_modelManager = nil;
  */
 - (void)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths patchSeletor:(SEL)seletor
 {
-    
+    NSLog(keyPaths);
     NSParameterAssert(target);
     NSParameterAssert(keyPaths);
     NSParameterAssert(seletor);
@@ -91,7 +91,6 @@ static ALModelManager *_modelManager = nil;
     NSMutableDictionary *responseDictionary = @{
                                                 @"user.name": @[
                                                         @{
-                                                            @"model": @"모델 명",
                                                             @"target": @"반환 대상",
                                                             @"seletor": @"콜백 대상"
                                                             }
@@ -110,6 +109,24 @@ static ALModelManager *_modelManager = nil;
         
         // 다수의 KeyPath 지원을 위해 .을 기준으로 분리 ( *로 모두 선택 지원용 )
         NSMutableArray *arrSeparatedKeyPath = [strAbsoluteKey componentsSeparatedByString:@"."].mutableCopy;
+    
+        NSLog(strAbsoluteKey);
+        NSString *strModelName = [arrSeparatedKeyPath firstObject];
+        
+        
+        if ([self searchKeyPath:arrSeparatedKeyPath])
+        {
+            for (NSString *strKey in arrSeparatedKeyPath)
+            {
+                NSLog(@"%@ :::strkey",strKey);
+            }
+            
+        }else{
+                    
+    
+        }
+        
+        //arrSeparatedKeyPath remov
         
         /* 일단 보류 ( 정확한 데이터 타입 체크를 위해 복잡성이 증가함 )
         // 처음값이 모델 또는 컬렉션 명이라고 판단
@@ -171,7 +188,20 @@ static ALModelManager *_modelManager = nil;
 {
     
 }
-
+- (BOOL)searchKeyPath: (NSArray *)keyPath
+{
+    BOOL isHaveStar = NO;
+    
+    for (NSString *str in keyPath)
+    {
+        if ([str isEqualToString:@"*"])
+        {
+            isHaveStar = YES;
+        }
+    }
+    
+    return isHaveStar;
+}
 
 #pragma mark -
 #pragma mark - Private Method

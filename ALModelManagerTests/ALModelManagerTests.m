@@ -38,6 +38,8 @@
 {
     
     User *user = [[User alloc] init];
+   
+    [[ALModelManager sharedInstance] addTarget:self observerForKeyPaths:@"dongwhee.haha.hoho, haha.hoho.hihi, haha.hoho.hihi, hi.he, hi.user.*, hi.user.iaz, hi,user,zizi" patchSeletor:@selector(testMethod)];
     
     NSString *kvcStyleString = @"userss";
     
@@ -67,6 +69,10 @@
     
 //    [self separateKeyPath:@"User.user.id, NSDictionary.motels.name, User.some.property,  User.user.*"];
     XCTAssertNil(nil, @"test complete");
+    
+}
+- (void)testMethod
+{
     
 }
 
