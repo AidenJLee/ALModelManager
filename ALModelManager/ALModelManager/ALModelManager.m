@@ -111,11 +111,11 @@ static ALModelManager *_modelManager = nil;
         if (!arrTargets) {
             
             // KVO 등록
-            [self observe:self keyPath:@"users" block:^(id observed, NSDictionary *change) {
-                responseBlock(@"users", [change valueForKey:NSKeyValueChangeNewKey]);
+            [target observe:self keyPath:keypath block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
+                responseBlock(observeKeypath, [change valueForKey:NSKeyValueChangeNewKey]);
             }];
-            [self.users addObserverForKeyPath:@"users" owner:target block:^(id observed, NSDictionary *change) {
-                responseBlock(@"users", [change valueForKey:NSKeyValueChangeNewKey]);
+            [self.users addObserverForKeyPath:@"users" owner:target block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
+                responseBlock(observeKeypath, [change valueForKey:NSKeyValueChangeNewKey]);
             }];
             
             // 관리 오브젝트 등록
@@ -124,8 +124,8 @@ static ALModelManager *_modelManager = nil;
         } else if (![arrTargets containsObject:target]) {
             
             // KVO 등록
-            [self.users addObserverForKeyPath:@"users" owner:target block:^(id observed, NSDictionary *change) {
-                responseBlock(@"users", [change valueForKey:NSKeyValueChangeNewKey]);
+            [self.users addObserverForKeyPath:@"users" owner:target block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
+                responseBlock(observeKeypath, [change valueForKey:NSKeyValueChangeNewKey]);
             }];
             
             // 관리 오브젝트 등록
@@ -148,9 +148,9 @@ static ALModelManager *_modelManager = nil;
     
 }
 
-- (void)removeForTarget:(id)target observerForKeyPaths:(NSString *)keyPaths
+- (BOOL)removeTarget:(id)target observerForKeyPaths:(NSString *)keyPaths
 {
-    
+    return NO;
 }
 
 - (BOOL)setDataObject:(id)object forPropertyKey:(NSString *)key;

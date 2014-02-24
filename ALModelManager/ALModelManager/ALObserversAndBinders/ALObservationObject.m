@@ -37,7 +37,7 @@
 {
     if(self.valid && (__bridge id)context == self &&
        ![[change valueForKey:NSKeyValueChangeNewKey] isEqual:[change valueForKey:NSKeyValueChangeOldKey]]) {
-        self.block(self.source, change);
+        self.block(self.keyPath, self.source, change);
     } else {
         [super observeValueForKeyPath:path ofObject:object change:change context:context];
     }
@@ -53,7 +53,7 @@
 
 - (void)invoke
 {
-    self.block(self.source, @{});
+    self.block(self.keyPath, self.source, @{});
 }
 
 @end
