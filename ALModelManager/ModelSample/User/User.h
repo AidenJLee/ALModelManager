@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface User : NSObject <NSCopying, NSMutableCopying>
+@interface User : NSObject <NSCoding, NSCopying, NSMutableCopying>
 
 @property (strong, nonatomic) NSString *_id;
 @property (strong, nonatomic) NSString *facebook;

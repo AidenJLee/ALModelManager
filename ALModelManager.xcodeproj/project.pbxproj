@@ -22,7 +22,6 @@
 		0F92D4C518AA67910028B7D4 /* ALObservationObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F92D4C418AA67910028B7D4 /* ALObservationObject.m */; };
 		0F92D4C818AA6EE60028B7D4 /* NSObject+Observation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F92D4C718AA6EE60028B7D4 /* NSObject+Observation.m */; };
 		E8A0CFBB18B71358008B63E5 /* NSObject+Properties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A0CFBA18B71358008B63E5 /* NSObject+Properties.m */; };
-		E8A0CFC318B746DD008B63E5 /* ALModelManagerTest2.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A0CFC218B746DD008B63E5 /* ALModelManagerTest2.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,7 +74,6 @@
 		0F92D4C718AA6EE60028B7D4 /* NSObject+Observation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Observation.m"; sourceTree = "<group>"; };
 		E8A0CFB918B71358008B63E5 /* NSObject+Properties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Properties.h"; sourceTree = "<group>"; };
 		E8A0CFBA18B71358008B63E5 /* NSObject+Properties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Properties.m"; sourceTree = "<group>"; };
-		E8A0CFC218B746DD008B63E5 /* ALModelManagerTest2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALModelManagerTest2.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,7 +150,6 @@
 			isa = PBXGroup;
 			children = (
 				0F18F8E818A9204800D7A0F5 /* ALModelManagerTests.m */,
-				E8A0CFC218B746DD008B63E5 /* ALModelManagerTest2.m */,
 				0F18F8E318A9204800D7A0F5 /* Supporting Files */,
 			);
 			path = ALModelManagerTests;
@@ -320,7 +317,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F18F8E918A9204800D7A0F5 /* ALModelManagerTests.m in Sources */,
-				E8A0CFC318B746DD008B63E5 /* ALModelManagerTest2.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

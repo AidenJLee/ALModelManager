@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^ALResponseBlock)(NSString *observedKey, id changedObject);
+
 @protocol ALModelManagerProtocol <NSObject>
 
 @required
-- (void)didActiveManager;
-- (void)didTerminateManager;
+- (NSArray *)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock;
+- (BOOL)removeAllObserverForTarget:(id)target keyPaths:(NSString *)keyPaths;
+- (void)removeAllObserverForTarget:(id)target;
 
 @end

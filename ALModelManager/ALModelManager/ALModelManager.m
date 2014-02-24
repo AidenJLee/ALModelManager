@@ -19,7 +19,6 @@
     
     NSMutableDictionary *_observationManager;   // 옵저빙 객체 관리용
     NSArray *_propertyNames;                    // App에서 사용 할 Data객체들의 Property 이름 배열
-    NSArray *_collectionNames;                  // App에서 사용 할 Data객체들이 Collection 인지 판별하기 위한 Collection 이름 배열
     
 }
 
@@ -43,29 +42,20 @@ static ALModelManager *_modelManager = nil;
 + (void)releaseInstance
 {
     _modelManager = nil;
+#warning 옵저버 모두 지우는 로직 추가해야 함
+    //    for (NSDictionary *dicObserverInfo in _observationManager) {
+    //        [dicObserverInfo[@"someKey"] removeAllObservations];
+    //    }
 }
 
 - (id)initModelManager
 {
     self = [super init];
     if (self) {
-        // do something~  ex) Init
+        // do something~
+        _observationManager = [[NSMutableDictionary alloc] initWithCapacity:10];
     }
     return self;
-}
-
-- (void)didActiveManager
-{
-    _observationManager = [[NSMutableDictionary alloc] initWithCapacity:10];
-    _propertyNames      = [ALIntrospection getPropertyNamesOfClass:[self class] superInquiry:NO];
-    _collectionNames    = @[ @"NSArray", @"NSMutableArray", @"NSDictionary", @"NSMutableDictionary", @"NSSet", @"NSMutableSet", @"NSHashTable", @"NSMapTable" ];
-}
-
-- (void)didTerminateManager
-{
-//    for (NSDictionary *dicObserverInfo in _observationManager) {
-//        [dicObserverInfo[@"someKey"] removeAllObservations];
-//    }
 }
 
 #pragma mark -
@@ -80,7 +70,6 @@ static ALModelManager *_modelManager = nil;
 {
     _observationManager = nil;
     _propertyNames      = nil;
-    _collectionNames    = nil;
 }
 
 /**
@@ -92,29 +81,31 @@ static ALModelManager *_modelManager = nil;
  *
  *  @return Observer를 적용한 KeyPath 목록
  */
-// @"users, users.*, hotels, hotels.brand"
 - (NSArray *)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
 {
     
     NSParameterAssert(target);
     NSParameterAssert(keyPaths);
     
+    // Property 이름 배열이 있는지 체크 해보고 없으면 Prpperty 이름들을 배열로 가져옴 - (self에 있는 Property - 외부에 있으면 외부 DataManager의 Class값을 넣음)
+    if (!_propertyNames) {
+        _propertyNames = [ALIntrospection getPropertyNamesOfClass:[self class] superInquiry:NO];
+    }
+    
+    // 중복 및 개행 제거
     NSString *strTrimKeyPaths = [keyPaths stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]; // [ @" ", @"\n" ];
     
     // 하나 이상의 KeyPath를 (,)기준으로 분리
-    NSMutableArray *arrKeyPaths = [self createKeyPathArrayForKeyPathString:strTrimKeyPaths];     /* arrKeyPaths = @[ @"users", @"users.*", @"hotels", @"hotel.brand" ] */
+    NSMutableArray *arrKeyPaths = [self createKeyPathArrayForKeyPathString:strTrimKeyPaths];
     
-    // KVO 등록
+    
     for (NSString *keypath in arrKeyPaths) {
         
-        NSArray *arrTargets = _observationManager[keypath];
+        NSArray *arrTargets = [_observationManager objectForKey:keypath];
         if (!arrTargets) {
             
             // KVO 등록
             [target observe:self keyPath:keypath block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
-                responseBlock(observeKeypath, [change valueForKey:NSKeyValueChangeNewKey]);
-            }];
-            [self.users addObserverForKeyPath:@"users" owner:target block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
                 responseBlock(observeKeypath, [change valueForKey:NSKeyValueChangeNewKey]);
             }];
             
@@ -124,7 +115,7 @@ static ALModelManager *_modelManager = nil;
         } else if (![arrTargets containsObject:target]) {
             
             // KVO 등록
-            [self.users addObserverForKeyPath:@"users" owner:target block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
+            [target observe:self keyPath:keypath block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
                 responseBlock(observeKeypath, [change valueForKey:NSKeyValueChangeNewKey]);
             }];
             
@@ -133,6 +124,7 @@ static ALModelManager *_modelManager = nil;
             
         } else {
             
+            // 이미 등록 되어 있는것으로 판단하여 반환 배열에서 Object를 제거
             [arrKeyPaths removeObject:keypath];
             
         }
@@ -143,28 +135,39 @@ static ALModelManager *_modelManager = nil;
     
 }
 
-- (void)removeForTarget:(id)target
+- (void)removeAllObserverForTarget:(id)target
 {
     
 }
 
-- (BOOL)removeTarget:(id)target observerForKeyPaths:(NSString *)keyPaths
+- (BOOL)removeAllObserverForTarget:(id)target keyPaths:(NSString *)keyPaths
 {
     return NO;
 }
 
-- (BOOL)setDataObject:(id)object forPropertyKey:(NSString *)key;
-{
-    
-    // ALModelManager가 key에 해당하는 Property를 가지고 있는지 체크
-    if (![_propertyNames containsObject:key]) {
-        [self setValue:object forKey:key];
-    } else {
-        return NO;
-    }
-    return YES;
-    
-}
+//- (BOOL)setDataObject:(id)object forPropertyKey:(NSString *)key;
+//{
+//    
+//    // Collection과 Custom Model의 분리가 쉽지 않아서 일단은 뎁스는 1뎁스만 지원
+//    // ALModelManager가 key에 해당하는 Property를 가지고 있는지 체크
+//    if ([_propertyNames containsObject:key]) {
+//        
+//        NSArray *arrKeyPaths = [key componentsSeparatedByString:@"."];
+//        
+//        if ([arrKeyPaths count] > 1) {
+//            NSString *strFirstKey = [arrKeyPaths firstObject];
+//            id propertyValue = [ALIntrospection getPropertyValueOfObject:self name:strFirstKey];
+//            [propertyValue setValue:object forKey:key];
+//        } else {
+//            [self setValue:object forKey:key];
+//        }
+//        
+//    } else {
+//        return NO;
+//    }
+//    return YES;
+//    
+//}
 
 
 #pragma mark -
@@ -180,23 +183,23 @@ static ALModelManager *_modelManager = nil;
     
     for (NSString *strKeyPath in arrKeyPaths) {
         
+        // KeyPath 내부에 *가 포함되어 있다면 모든 프로퍼티 이름을 가져와 KeyPath 생성
         if ([self ContainString:strKeyPath onText:@"*"]) {
             
-            NSArray *strPropertyNames = [ALIntrospection getPropertyNamesOfClass:[self class] superInquiry:NO];
+            // Property 이름을 목록으로 가져오기
+            NSArray *arrPropertyNames = [ALIntrospection getPropertyNamesOfClass:[self class] superInquiry:NO];
             
-            for (NSString *strPropertyKey in strPropertyNames) {
+            for (NSString *strPropertyKey in arrPropertyNames) {
                 
                 NSString *absoluteKeyPath = [strKeyPath stringByReplacingOccurrencesOfString:@"*" withString:strPropertyKey];
-                if ([arrResponse containsObject:absoluteKeyPath]) {
+                if (![arrResponse containsObject:absoluteKeyPath]) {
                     [arrResponse addObject:absoluteKeyPath];
                 }
                 
             }
             
         } else {
-            
             [arrResponse addObject:strKeyPath];
-            
         }
         
     }
@@ -204,6 +207,12 @@ static ALModelManager *_modelManager = nil;
     return arrResponse;
     
 }
+
+- (BOOL)ContainString:(NSString *)strSearch onText:(NSString *)strText
+{
+    return [strText rangeOfString:strSearch options:NSCaseInsensitiveSearch].location == NSNotFound ? FALSE : TRUE;
+}
+
 
 - (BOOL)addKVOForKeyPath:(NSString *)keypath observationInfo:(NSDictionary *)info
 {
@@ -225,76 +234,5 @@ static ALModelManager *_modelManager = nil;
     return YES;
     
 }
-
-- (BOOL)ContainString:(NSString *)strSearch onText:(NSString *)strText
-{
-    return [strText rangeOfString:strSearch options:NSCaseInsensitiveSearch].location == NSNotFound ? FALSE : TRUE;
-}
-
-/*
- // 하나 이상의 KeyPath를 (,)기준으로 분리
-
-for (NSString *strKeypath in arrKeyPaths) {
-    
-    // 공백 및 개행 제거
-    NSString *strAbsoluteKey = [strKeypath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];  // [ @" ", @"\n" ]
-    
-    [arrResponse addObject:@{ strKeypath: target }];
-    // 다수의 KeyPath 지원을 위해 .을 기준으로 분리 ( *로 모두 선택 지원용 )
-    NSMutableArray *arrSeparatedKeyPath = [strAbsoluteKey componentsSeparatedByString:@"."].mutableCopy;
-    
-    // 일단 보류 ( 정확한 데이터 타입 체크를 위해 복잡성이 증가함 )
-     // 처음값이 모델 또는 컬렉션 명이라고 판단
-     //        NSString *strModelName = [[arrSeparatedKeyPath firstObject] capitalizedString]; // 일단 보류
-     
-     // 모델이 있는지 체크
-     Class modelClass = NSClassFromString(strModelName);
-     id model = [modelClass alloc];
-     
-     // Model key 지움
-     [arrSeparatedKeyPath removeObjectAtIndex:0];
-    
-    if ([self Contains:strAbsoluteKey on:@"*"]) {
-        
-        for (NSString *strKey in arrSeparatedKeyPath) {
-            if ([strKey isEqualToString:@"*"]) {
-                
-                NSArray *propertyNames = [ALIntrospection getPropertyNamesOfClass:modelClass superInquiry:NO];
-                for (NSString *propertyKey in propertyNames) {
-                    
-                    NSLog(@"%@", [strAbsoluteKey stringByReplacingOccurrencesOfString:@"*" withString:propertyKey]);
-                    NSDictionary *observeDic = @{
-                                                 @"modelkey": strModelName,
-                                                 @"keypath": [strAbsoluteKey stringByReplacingOccurrencesOfString:@"*" withString:propertyKey],
-                                                 @"target": target,
-                                                 @"selector": NSStringFromSelector(seletor)
-                                                 };
-                    
-                    // KVO 적용 및 객체 관리
-                    //                        [self addKVOForDictionary:observeDic];
-                    NSLog(@"%@", observeDic);
-                    
-                }
-                
-            }
-        }
-        
-    } else {
-        
-        NSDictionary *observeDic = @{
-                                     @"modelkey": strModelName,
-                                     @"keypath": strAbsoluteKey,
-                                     @"target": target,
-                                     @"selector": NSStringFromSelector(seletor)
-                                     };
-        
-        // KVO 적용 및 객체 관리
-        //            [self addKVOForDictionary:observeDic];
-        NSLog(@"%@", observeDic);
-        
-    }
-    
-}
- */
 
 @end
