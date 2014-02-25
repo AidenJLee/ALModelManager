@@ -73,16 +73,12 @@
 
 - (id)mutableCopyWithZone:(NSZone *)zone
 {
-    // subclass implementation should do a deep mutable copy
-    // this class doesn't have any ivars so this is ok
     User *modelUser = [[User allocWithZone:zone] init];
     return modelUser;
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    // subclass implementation should do a deep mutable copy
-    // this class doesn't have any ivars so this is ok
     User *modelUser = [[User allocWithZone:zone] init];
     return modelUser;
 }

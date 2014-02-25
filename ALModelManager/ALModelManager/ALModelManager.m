@@ -213,26 +213,4 @@ static ALModelManager *_modelManager = nil;
     return [strText rangeOfString:strSearch options:NSCaseInsensitiveSearch].location == NSNotFound ? FALSE : TRUE;
 }
 
-
-- (BOOL)addKVOForKeyPath:(NSString *)keypath observationInfo:(NSDictionary *)info
-{
-    
-    id observingObject = _observationManager[keypath];
-    // property를 가지고 있는지 체크
-    if (observingObject && ![observingObject containsObject:info]) {
-        
-        NSDictionary *testDic = @{ @"a": @"b" };
-        for (NSString *key in testDic) {
-            
-        }
-        
-        // 관리 오브젝트 등록
-        [_observationManager setObject:info forKey:keypath];
-    } else {
-        return NO;
-    }
-    return YES;
-    
-}
-
 @end

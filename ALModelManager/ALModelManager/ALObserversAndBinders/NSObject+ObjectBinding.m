@@ -19,6 +19,7 @@
 #pragma mark - Public Method Implement
 - (void)bindSourceKeyPath:(NSString *)sourcePath to:(id)target targetKeyPath:(NSString *)targetPath reverseMapping:(BOOL)reverseMapping
 {
+    
     [[self allKeyPathBindings] addObject:[self observe:self keyPath:sourcePath block:^(NSString *observationKey, id observed, NSDictionary *change) {
         [target setValue:[change valueForKey:NSKeyValueChangeNewKey] forKey:targetPath];
     }]];
@@ -28,6 +29,7 @@
             [self setValue:[change valueForKey:NSKeyValueChangeNewKey] forKey:sourcePath];
         }]];
     }
+    
 }
 
 - (void)unbindKeyPath:(NSString *)keyPath

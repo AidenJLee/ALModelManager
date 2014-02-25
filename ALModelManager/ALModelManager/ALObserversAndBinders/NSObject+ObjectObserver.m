@@ -30,6 +30,7 @@
                                        options:(NSKeyValueObservingOptions)options
                                          block:(ObservationObjectBlock)block
 {
+    
     for(ALObservationObject *binding in [NSArray arrayWithArray:[self allObjectObservers]]) {
         if(![binding.owner isEqual:owner] && ![binding.keyPath isEqualToString:keyPath]) {
             ALObservationObject *binding = [[ALObservationObject alloc] init];

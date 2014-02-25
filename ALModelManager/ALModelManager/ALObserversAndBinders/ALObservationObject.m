@@ -35,12 +35,19 @@
                         change:(NSDictionary *)change
                        context:(void *)context
 {
-    if(self.valid && (__bridge id)context == self &&
-       ![[change valueForKey:NSKeyValueChangeNewKey] isEqual:[change valueForKey:NSKeyValueChangeOldKey]]) {
-        self.block(self.keyPath, self.source, change);
+    
+    if(self.valid && (__bridge id)context == self) {
+        
+        // 데이터 변화가 있을 때만 블럭을 호출
+        // Error fix - 변화가 없을 때 아래 super가 불려서 오류가 발생 함
+        if (![[change valueForKey:NSKeyValueChangeNewKey] isEqual:[change valueForKey:NSKeyValueChangeOldKey]]) {
+            self.block(self.keyPath, self.source, change);
+        }
+    
     } else {
         [super observeValueForKeyPath:path ofObject:object change:change context:context];
     }
+    
 }
 
 #pragma mark -
