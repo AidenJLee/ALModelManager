@@ -7,6 +7,7 @@
 //
 
 #import "User.h"
+#import "Dog.h"
 
 @implementation User
 
@@ -16,7 +17,7 @@
 {
     self = [super init];
     if (self) {
-        
+        _dogs = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -33,54 +34,37 @@
 
 #pragma mark -
 #pragma mark - KVC Method Implement
-// subclass implementation should provide correct key value mappings for custom keys
-- (id)valueForUndefinedKey:(NSString *)key
-{
-    NSLog(@"%s Undefined Key: %@", __FUNCTION__, key);
-    return nil;
-}
-
-// subclass implementation should set the correct key value mappings for custom keys
+// 사용자 지정 키에 대한 올바른 키와 값의 매핑을 설정해야 하기때문에 서브 클래스 구현 함
+// ex) Objective-c 예약어와 키가 겹쳐서 충돌이 난다면 여기서 변경
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
+    
     NSLog(@"Undefined Key: %@", key);
-    if ([key isEqualToString:@"__v"]) {  // Sample
+    if([key isEqualToString:@"id"]) { // 충돌 Sample
+        self.userId = value;
+    } else if ([key isEqualToString:@"__v"]) {
         
     } else {
-        // 키 값 변경 시 충돌 문제가 발생 할 수 있어서 super 호출을 안함.
-        // 문제는 super를 호출하지 않으면 상위 오브젝트로 전달 되어야 할 노티가 안갈수도 있음
-        // 현재는 NSObject기 때문에 큰 문제는 없을것으로 예상 됨.
-//        [super setValue:value forUndefinedKey:key];
+        [super setValue:value forUndefinedKey:key];
     }
+    
 }
 
-#pragma mark -
-#pragma mark - NSCoder 
-- (BOOL)allowsKeyedCoding
+// 내부에 Collection을 가지고 있다면 그 키를 가로채어 Model을 생성 후 넣어준다
+- (void)setValue:(id)value forKey:(NSString *)key
 {
-	return YES;
-}
-
-- (id)initWithCoder:(NSCoder *)decoder
-{
-	return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)encoder
-{
-	// do nothing.
-}
-
-- (id)mutableCopyWithZone:(NSZone *)zone
-{
-    User *modelUser = [[User allocWithZone:zone] init];
-    return modelUser;
-}
-
-- (id)copyWithZone:(NSZone *)zone
-{
-    User *modelUser = [[User allocWithZone:zone] init];
-    return modelUser;
+    
+    // 하위 Depth 맵핑 - Dog
+    if([key isEqualToString:@"dogs"]) {
+        for(NSMutableDictionary *dogDict in value)
+        {
+            Dog *thisDog = [[Dog alloc] initWithDictionary:dogDict];
+            [self.dogs addObject:thisDog];
+        }
+    } else {
+        [super setValue:value forKey:key];
+    }
+    
 }
 
 @end

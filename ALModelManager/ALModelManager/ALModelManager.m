@@ -16,10 +16,7 @@
 
 
 @interface ALModelManager () {
-    
     NSMutableDictionary *_observationManager;   // 옵저빙 객체 관리용
-    NSArray *_propertyNames;                    // App에서 사용 할 Data객체들의 Property 이름 배열
-    
 }
 
 @end
@@ -69,7 +66,6 @@ static ALModelManager *_modelManager = nil;
 - (void)dealloc
 {
     _observationManager = nil;
-    _propertyNames      = nil;
 }
 
 /**
@@ -86,11 +82,6 @@ static ALModelManager *_modelManager = nil;
     
     NSParameterAssert(target);
     NSParameterAssert(keyPaths);
-    
-    // Property 이름 배열이 있는지 체크 해보고 없으면 Prpperty 이름들을 배열로 가져옴 - (self에 있는 Property - 외부에 있으면 외부 DataManager의 Class값을 넣음)
-    if (!_propertyNames) {
-        _propertyNames = [ALIntrospection getPropertyNamesOfClass:[self class] superInquiry:NO];
-    }
     
     // 중복 및 개행 제거
     NSString *strTrimKeyPaths = [keyPaths stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]; // [ @" ", @"\n" ];
