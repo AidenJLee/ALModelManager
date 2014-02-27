@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^ALResponseBlock)(NSString *observedKey, id changedObject);
+typedef void (^ALResponseBlock)(NSString *observedKey, id observed, id changedObject);
 
 @protocol ALModelManagerProtocol <NSObject>
 
 @required
-- (NSArray *)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock;
+- (NSArray *)addKVOTarget:(id)target keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock;
 - (BOOL)removeAllObserverForTarget:(id)target keyPaths:(NSString *)keyPaths;
 - (void)removeAllObserverForTarget:(id)target;
 

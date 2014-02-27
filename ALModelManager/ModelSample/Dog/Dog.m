@@ -26,9 +26,11 @@
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
     
-    [encoder encodeObject:self.name forKey:@"name"];
-    [encoder encodeObject:self.gender forKey:@"gender"];
-    [encoder encodeObject:self.birthday forKey:@"birthday"];
+    NSArray *propertyNames = @[ @"name", @"gender", @"birthday" ];
+    
+    for (NSString *pName in propertyNames) {
+        [encoder encodeObject:[self valueForKey:pName] forKey:pName];
+    }
     
 }
 
@@ -37,29 +39,30 @@
     
     if ((self = [super init])) {
         
-        if ([decoder containsValueForKey:@"name"]) {
-            self.name = [decoder decodeObjectForKey:@"gender"];
-        }
-        if ([decoder containsValueForKey:@"gender"]) {
-            self.gender = [decoder decodeObjectForKey:@"gender"];
-        }
-        if ([decoder containsValueForKey:@"birthday"]) {
-            self.birthday = [decoder decodeObjectForKey:@"birthday"];
+        NSArray *propertyNames = @[ @"name", @"gender", @"birthday" ];
+        
+        for (NSString *pName in propertyNames) {
+            if ([decoder containsValueForKey:@"name"]) {
+                [self setValue:[decoder decodeObjectForKey:pName] forKey:pName];
+            }
         }
         
     }
     return self;
+    
 }
 
 
 - (id)copyWithZone:(NSZone *)zone
 {
     
+    NSArray *propertyNames = @[ @"name", @"gender", @"birthday" ];
+
     id theCopy = [[[self class] allocWithZone:zone] init];  // use designated initializer
     
-    [theCopy setName:[self.name copy]];
-    [theCopy setGender:[self.gender copy]];
-    [theCopy setBirthday:[self.birthday copy]];
+    for (NSString *pName in propertyNames) {
+        [theCopy setValue:[[self valueForKey:pName] copy] forKey:pName];
+    }
     
     return theCopy;
     

@@ -39,6 +39,11 @@ static ALModelManager *_modelManager = nil;
 + (void)releaseInstance
 {
     _modelManager = nil;
+    NSArray *inventory = @[ @"iPhone5", @"iPhone5", @"iPhone5", @"iPadMini", @"macBookPro", @"macBookPro" ];
+    
+    [inventory valueForKeyPath:@"@unionOfObjects.name"]; // "iPhone 5", "iPhone 5", "iPhone 5", "iPad Mini", "MacBook Pro", "MacBook Pro"
+    [inventory valueForKeyPath:@"@distinctUnionOfObjects.name"]; // "iPhone 5", "iPad Mini", "MacBook Pro"
+    
 #warning 옵저버 모두 지우는 로직 추가해야 함
     //    for (NSDictionary *dicObserverInfo in _observationManager) {
     //        [dicObserverInfo[@"someKey"] removeAllObservations];
@@ -77,7 +82,7 @@ static ALModelManager *_modelManager = nil;
  *
  *  @return Observer를 적용한 KeyPath 목록
  */
-- (NSArray *)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
+- (NSArray *)addKVOTarget:(id)target keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
 {
     
     NSParameterAssert(target);
@@ -86,9 +91,8 @@ static ALModelManager *_modelManager = nil;
     // 중복 및 개행 제거
     NSString *strTrimKeyPaths = [keyPaths stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]; // [ @" ", @"\n" ];
     
-    // 하나 이상의 KeyPath를 (,)기준으로 분리
+    // 하나 이상의 KeyPath를 분리
     NSMutableArray *arrKeyPaths = [self createKeyPathArrayForKeyPathString:strTrimKeyPaths];
-    
     
     for (NSString *keypath in arrKeyPaths) {
         
@@ -97,17 +101,18 @@ static ALModelManager *_modelManager = nil;
             
             // KVO 등록
             [target observe:self keyPath:keypath block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
-                responseBlock(observeKeypath, [change valueForKey:NSKeyValueChangeNewKey]);
+                responseBlock(observeKeypath, observed, [change valueForKey:NSKeyValueChangeNewKey]);
             }];
             
             // 관리 오브젝트 등록
-            [_observationManager setObject:@[target].mutableCopy forKey:keypath];
+            NSMutableArray *arrTargets = @[target].mutableCopy;
+            [_observationManager setObject:arrTargets forKey:keypath];
             
         } else if (![arrTargets containsObject:target]) {
             
             // KVO 등록
             [target observe:self keyPath:keypath block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
-                responseBlock(observeKeypath, [change valueForKey:NSKeyValueChangeNewKey]);
+                responseBlock(observeKeypath, observed, [change valueForKey:NSKeyValueChangeNewKey]);
             }];
             
             // 관리 오브젝트 등록
