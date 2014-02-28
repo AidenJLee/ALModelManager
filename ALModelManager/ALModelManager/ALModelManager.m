@@ -167,9 +167,9 @@ static ALModelManager *_modelManager = nil;
     return arrResponse;
     
 }
-- (BOOL)changeValueForKeyPath: (NSString*)keyPath andObject:(id)object to:(id)to
+- (BOOL)setValueForKeyPath:(NSString*)keyPath andValue:(id)Value andTargetObject:(id)object
 {
-    NSLog([ALIntrospection hasPropertyAtObject:to name:@"userId"] ? @"YES":@"NO");
+    [object setValue:Value forKeyPath:keyPath];
     
     return YES;
 }

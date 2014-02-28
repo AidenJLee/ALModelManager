@@ -67,7 +67,7 @@
     NSLog(@"sports : %@ " , [user valueForKeyPath:@"like.sports"]);
     XCTAssertNil(nil, @"test complete");
     
-    [manager changeValueForKeyPath:@"like.sports" andObject:@"축구" to:user];
+    [manager setValueForKeyPath:@"like.sports" andValue:@"축구" andTargetObject:user];
     NSLog(@"sports : %@ " , [user valueForKeyPath:@"like.sports"]);
     
     
