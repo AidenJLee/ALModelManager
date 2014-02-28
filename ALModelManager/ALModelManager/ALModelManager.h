@@ -21,5 +21,6 @@
 
 + (ALModelManager *)sharedInstance;
 + (void)releaseInstance;
+-  (BOOL)changeValueForKeyPath: (NSString*)keyPath andObject:(id)object to:(id)to;
 
 @end

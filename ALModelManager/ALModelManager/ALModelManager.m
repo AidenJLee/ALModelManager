@@ -189,6 +189,12 @@ static ALModelManager *_modelManager = nil;
     return arrResponse;
     
 }
+- (BOOL)changeValueForKeyPath: (NSString*)keyPath andObject:(id)object to:(id)to
+{
+    NSLog([ALIntrospection hasPropertyAtObject:to name:@"userId"] ? @"YES":@"NO");
+    
+    return YES;
+}
 
 - (BOOL)ContainString:(NSString *)strSearch onText:(NSString *)strText
 {

@@ -35,6 +35,8 @@
 
 - (void)testExample
 {
+    ALModelManager *manager = [ALModelManager sharedInstance];
+    
     NSMutableDictionary *info = @{
                                   @"menuitems" : @{
                                           @"id"         : @"don`t tell mama",
@@ -65,9 +67,8 @@
     NSLog(@"sports : %@ " , [user valueForKeyPath:@"like.sports"]);
     XCTAssertNil(nil, @"test complete");
     
-    [user setValue:@"축구" forKeyPath:@"like.sports"];
+    [manager changeValueForKeyPath:@"like.sports" andObject:@"축구" to:user];
     NSLog(@"sports : %@ " , [user valueForKeyPath:@"like.sports"]);
-    
     
     
 }
