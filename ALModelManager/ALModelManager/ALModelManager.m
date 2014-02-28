@@ -120,6 +120,11 @@ static ALModelManager *_modelManager = nil;
     
 }
 
+- (void)observerTarget:(id)target keyPath:(NSString *)keyPath block:(ALResponseBlock)responseBlock
+{
+    
+}
+
 - (void)removeAllObserverForTarget:(id)target
 {
     
