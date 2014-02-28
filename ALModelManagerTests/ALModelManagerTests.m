@@ -59,20 +59,16 @@
                                        }
                                   }.mutableCopy;
     
-    User *user = [[User alloc] init];
-   
-    [[ALModelManager sharedInstance] addTarget:self observerForKeyPaths:@"dongwhee.haha.hoho, haha.hoho.hihi, haha.hoho.hihi, hi.he, hi.user.*, hi.user.iaz, hi,user,zizi" patchSeletor:@selector(testMethod)];
-    
-    NSString *kvcStyleString = @"userss";
-    
-    NSLog(@"styleString : %@ " , [kvcStyleString substringToIndex:1]);
-    NSLog(@"styleString : %@ " , [kvcStyleString substringFromIndex:1]);
-    
-    NSLog(@"user : %@ " , user.username);
+    User *user = [[User alloc] initWithDictionary:info[@"menuitems"]];
     
     NSLog(@"id : %@ " , user.userId);
     NSLog(@"sports : %@ " , [user valueForKeyPath:@"like.sports"]);
     XCTAssertNil(nil, @"test complete");
+    
+    [user setValue:@"축구" forKeyPath:@"like.sports"];
+    NSLog(@"sports : %@ " , [user valueForKeyPath:@"like.sports"]);
+    
+    
     
 }
 - (void)testMethod
