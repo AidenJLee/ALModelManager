@@ -56,9 +56,9 @@
     
     // 하위 Depth 맵핑 - Dog
     if([key isEqualToString:@"dogs"]) {
-        for(NSMutableDictionary *dogDict in value)
+        for(NSMutableDictionary *dictDog in value)
         {
-            Dog *thisDog = [[Dog alloc] initWithDictionary:dogDict];
+            Dog *thisDog = [[Dog alloc] initWithDictionary:dictDog];
             [self.dogs addObject:thisDog];
         }
     } else {

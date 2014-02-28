@@ -55,10 +55,10 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    
-    NSArray *propertyNames = @[ @"name", @"gender", @"birthday" ];
 
     id theCopy = [[[self class] allocWithZone:zone] init];  // use designated initializer
+    
+    NSArray *propertyNames = @[ @"name", @"gender", @"birthday" ];
     
     for (NSString *pName in propertyNames) {
         [theCopy setValue:[[self valueForKey:pName] copy] forKey:pName];

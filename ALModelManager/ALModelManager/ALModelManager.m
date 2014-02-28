@@ -141,29 +141,31 @@ static ALModelManager *_modelManager = nil;
     return NO;
 }
 
-//- (BOOL)setDataObject:(id)object forPropertyKey:(NSString *)key;
-//{
-//    
-//    // Collection과 Custom Model의 분리가 쉽지 않아서 일단은 뎁스는 1뎁스만 지원
-//    // ALModelManager가 key에 해당하는 Property를 가지고 있는지 체크
+
+// 동휘씨에게 부탁함.
+- (BOOL)setDataObject:(id)object forPropertyKey:(NSString *)key;
+{
+    
+    // Collection과 Custom Model의 분리가 쉽지 않아서 일단은 뎁스는 1뎁스만 지원
+    // ALModelManager가 key에 해당하는 Property를 가지고 있는지 체크
 //    if ([_propertyNames containsObject:key]) {
-//        
-//        NSArray *arrKeyPaths = [key componentsSeparatedByString:@"."];
-//        
-//        if ([arrKeyPaths count] > 1) {
-//            NSString *strFirstKey = [arrKeyPaths firstObject];
-//            id propertyValue = [ALIntrospection getPropertyValueOfObject:self name:strFirstKey];
-//            [propertyValue setValue:object forKey:key];
-//        } else {
-//            [self setValue:object forKey:key];
-//        }
+    
+        NSArray *arrKeyPaths = [key componentsSeparatedByString:@"."];
+        
+        if ([arrKeyPaths count] > 1) {
+            NSString *strFirstKey = [arrKeyPaths firstObject];
+            id propertyValue = [ALIntrospection getPropertyValueOfObject:self name:strFirstKey];
+            [propertyValue setValue:object forKey:key];
+        } else {
+            [self setValue:object forKey:key];
+        }
 //        
 //    } else {
 //        return NO;
 //    }
-//    return YES;
-//    
-//}
+    return YES;
+    
+}
 
 
 #pragma mark -
