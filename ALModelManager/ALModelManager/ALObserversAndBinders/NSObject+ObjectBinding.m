@@ -19,16 +19,17 @@
 #pragma mark - Public Method Implement
 - (void)bindSourceKeyPath:(NSString *)sourcePath to:(id)target targetKeyPath:(NSString *)targetPath reverseMapping:(BOOL)reverseMapping
 {
-    [[self allKeyPathBindings] addObject:[self observe:self keyPath:sourcePath block:^(id observed, NSDictionary *change) {
+    
+    [[self allKeyPathBindings] addObject:[self observe:self keyPath:sourcePath block:^(NSString *observationKey, id observed, NSDictionary *change) {
         [target setValue:[change valueForKey:NSKeyValueChangeNewKey] forKey:targetPath];
     }]];
     
-    if(reverseMapping)
-    {
-        [[self allKeyPathBindings] addObject:[self observe:target keyPath:targetPath block:^(id observed, NSDictionary *change) {
+    if(reverseMapping) {
+        [[self allKeyPathBindings] addObject:[self observe:target keyPath:targetPath block:^(NSString *observationKey, id observed, NSDictionary *change) {
             [self setValue:[change valueForKey:NSKeyValueChangeNewKey] forKey:sourcePath];
         }]];
     }
+    
 }
 
 - (void)unbindKeyPath:(NSString *)keyPath

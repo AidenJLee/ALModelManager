@@ -10,23 +10,30 @@
 #import <Foundation/Foundation.h>
 
 #import "NSObject+Observation.h"
-/*
- [self observe:model keyPath:@"somePropertyKey" block:^(id observed, NSDictionary *change) {
-    NSLog(@"observed : %@ " , observed);
-    NSLog(@"new Object: %@ " , [change objectForKey:NSKeyValueChangeNewKey]);
- }];
- */
+
 
 #import "NSObject+ObjectObserver.h"
-/*
- [self.model addObserverForKeyPath:@"somePropertyKey" owner:self block:^(id observed, NSDictionary *change) {
-    NSLog(@"observed : %@ " , observed);
-    NSLog(@"new Object: %@ " , [change objectForKey:NSKeyValueChangeNewKey]);
- }];
- */
+
 
 #import "NSObject+ObjectBinding.h"
 /*
+ Observation Example
+ [self observe:model keyPath:@"somePropertyKey" block:^(id observed, NSDictionary *change) {
+ NSLog(@"observed : %@ " , observed);
+ NSLog(@"new Object: %@ " , [change objectForKey:NSKeyValueChangeNewKey]);
+ }];
+ */
+
+/*
+ ObjectObserver Example
+ [self.model addObserverForKeyPath:@"somePropertyKey" owner:self block:^(id observed, NSDictionary *change) {
+ NSLog(@"observed : %@ " , observed);
+ NSLog(@"new Object: %@ " , [change objectForKey:NSKeyValueChangeNewKey]);
+ }];
+ */
+
+/*
+ ObjectBinding Example
  [self.Button bindSourceKeyPath:@"seleted" to:imageView targetKeyPath:@"image" reverseMapping:YES];
  
  // add one way blocks to observe the stepper values

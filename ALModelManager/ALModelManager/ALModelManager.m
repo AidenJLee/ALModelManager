@@ -7,16 +7,16 @@
 //
 
 #import "ALModelManager.h"
-#import "ALObservation.h"
-#import "NSObject+Properties.h"
 #import "ALIntrospection.h"
 
 #import <objc/runtime.h>
 
-#define OBSERVING_MANAGEMENT_KEY @"observingManagementKey"
+#define OBSERVING_TARGET_KEY @"responseTarget"
+#define OBSERVING_CALLBACK_KEY @"callbackSeletor"
+
 
 @interface ALModelManager () {
-    NSArray *_propertyNames;
+    NSMutableDictionary *_observationManager;   // 옵저빙 객체 관리용
 }
 
 @end
@@ -39,27 +39,20 @@ static ALModelManager *_modelManager = nil;
 + (void)releaseInstance
 {
     _modelManager = nil;
+#warning 옵저버 모두 지우는 로직 추가해야 함
+    //    for (NSDictionary *dicObserverInfo in _observationManager) {
+    //        [dicObserverInfo[@"someKey"] removeAllObservations];
+    //    }
 }
 
 - (id)initModelManager
 {
     self = [super init];
     if (self) {
-        // do something~  ex) Init
+        // do something~
+        _observationManager = [[NSMutableDictionary alloc] initWithCapacity:10];
     }
     return self;
-}
-
-- (void)didActiveManager
-{
-    _observationManager = [[NSMutableDictionary alloc] initWithCapacity:10];
-    _propertyNames = [ALIntrospection getPropertyNamesOfClass:[self class] superInquiry:NO];
-}
-
-- (void)didTerminateManager
-{
-    _observationManager = nil;
-    _propertyNames      = nil;
 }
 
 #pragma mark -
@@ -73,31 +66,23 @@ static ALModelManager *_modelManager = nil;
 - (void)dealloc
 {
     _observationManager = nil;
-    _propertyNames      = nil;
 }
 
-
 /**
- *  어떤 대상을 감시할지 keyPath를 통해 받고
- *  그 결과를 콜백 대상과 seletor에게 반환한다.
- *  물론 이것을 위해 모든 정보를 collection에 담아서 관리한다.
- *
- *  keypath case
- * 1. collection : collectionName.propertyName
- * ex) NSDictionary.users.name, NSDictionary.users.id, NSDictionary.users.email, NSDictionary.users.*
- * 2. model : modelName.propertyName
- * ex) User.user.name, User.user.id, User.user.email, User.user.*
+ *  감시 할 대상에 대한 정보를 keypath를 통해 받아서 대상에 변경이 일어나면 block 코드를 호출 한다
+ *  !주의 : 2 Depth 까지의 KeyPath만 지원 - @"key1.key2"
  *
  *  @param target   콜백 대상
- *  @param keyPaths 감시할 대상들 다수의 keyPath를 지원 - ex) @"user.*, chat._id, chat.male"
- *  @param seletor  변경시 콜백
+ *  @param keyPaths 감시 대상
+ *  @param block    콜백 반환
+ *
+ *  @return Observer를 적용한 KeyPath 목록
  */
-- (BOOL)addTarget:(id)target observerForKeyPaths:(NSString *)keyPaths patchSeletor:(SEL)seletor
+- (NSArray *)addKVOTarget:(id)target keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
 {
     NSLog(keyPaths);
     NSParameterAssert(target);
     NSParameterAssert(keyPaths);
-    NSParameterAssert(seletor);
     
     NSMutableDictionary *responseDictionary = @{
                                                 @"user.name": @[
@@ -108,6 +93,8 @@ static ALModelManager *_modelManager = nil;
                                                         ]
                                                 };
     
+    // 하나 이상의 KeyPath를 분리
+    NSMutableArray *arrKeyPaths = [self createKeyPathArrayForKeyPathString:strTrimKeyPaths];
     
     // 하나 이상의 KeyPath를 (,)기준으로 분리
     NSArray *arrKeyPaths = [keyPaths componentsSeparatedByString:@","];     /* keyPath = @[ user.*, chat._id, chat.male ] */
@@ -146,64 +133,43 @@ static ALModelManager *_modelManager = nil;
         Class modelClass = NSClassFromString(strModelName);
         id model = [modelClass alloc];
         
-        // Model key 지움
-        [arrSeparatedKeyPath removeObjectAtIndex:0];
-        */
-        
-//        if ([self Contains:strAbsoluteKey on:@"*"]) {
+        NSArray *arrTargets = [_observationManager objectForKey:keypath];
+        if (!arrTargets) {
+            
+//            // KVO 등록
+//            [target observe:self keyPath:keypath block:^(NSString *observationKey, id observed, id changeObject) {
+//                responseBlock(observationKey, observed, changeObject);
+//            }];
 //            
-//            for (NSString *strKey in arrSeparatedKeyPath) {
-//                if ([strKey isEqualToString:@"*"]) {
-//                    
-//                    NSArray *propertyNames = [ALIntrospection getPropertyNamesOfClass:modelClass superInquiry:NO];
-//                    for (NSString *propertyKey in propertyNames) {
-//                        
-//                        NSLog(@"%@", [strAbsoluteKey stringByReplacingOccurrencesOfString:@"*" withString:propertyKey]);
-//                        NSDictionary *observeDic = @{
-//                                                     @"modelkey": strModelName,
-//                                                     @"keypath": [strAbsoluteKey stringByReplacingOccurrencesOfString:@"*" withString:propertyKey],
-//                                                     @"target": target,
-//                                                     @"selector": NSStringFromSelector(seletor)
-//                                                     };
-//                        
-//                        // KVO 적용 및 객체 관리
-////                        [self addKVOForDictionary:observeDic];
-//                        NSLog(@"%@", observeDic);
-//                        
-//                    }
-//                    
-//                }
-//            }
+//            // 관리 오브젝트 등록
+//            NSMutableArray *arrTargets = @[target].mutableCopy;
+//            [_observationManager setObject:arrTargets forKey:keypath];
+            
+        } else if (![arrTargets containsObject:target]) {
+            
+//            // KVO 등록
+//            [target observe:self keyPath:keypath block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
+//                responseBlock(observeKeypath, observed, [change valueForKey:NSKeyValueChangeNewKey]);
+//            }];
 //            
-//        } else {
-//            
-//            NSDictionary *observeDic = @{
-//                                         @"modelkey": strModelName,
-//                                         @"keypath": strAbsoluteKey,
-//                                         @"target": target,
-//                                         @"selector": NSStringFromSelector(seletor)
-//                                         };
-//            
-//            // KVO 적용 및 객체 관리
-////            [self addKVOForDictionary:observeDic];
-//            NSLog(@"%@", observeDic);
-//            
-//        }
+//            // 관리 오브젝트 등록
+//            [_observationManager[keypath] addObject:target];
+            
+        } else {
+            
+            // 이미 등록 되어 있는것으로 판단하여 반환 배열에서 Object를 제거
+            [arrKeyPaths removeObject:keypath];
+            
+        }
         
     }
-    return YES;
+
+    return arrKeyPaths;
     
 }
 
-- (BOOL)setDataObject:(id)object forPropertyKey:(NSString *)key;
+- (void)removeAllObserverForTarget:(id)target
 {
-    
-    if (![_propertyNames containsObject:key]) {
-        [self setValue:object forKey:key];
-    } else {
-        return NO;
-    }
-    return YES;
     
 }
 - (BOOL)searchKeyPath: (NSArray *)keyPath
@@ -225,83 +191,51 @@ static ALModelManager *_modelManager = nil;
 #pragma mark - Private Method
 - (BOOL)ContainString:(NSString *)searchString onTextString:(NSString *)strTextString
 {
-    return [strTextString rangeOfString:searchString options:NSCaseInsensitiveSearch].location == NSNotFound ? FALSE : TRUE;
+    return NO;
 }
 
-- (BOOL)addKVOForKeyPath:(NSString *)keypath observationInfo:(NSDictionary *)info
+
+#pragma mark -
+#pragma mark - Private Method
+- (NSMutableArray *)createKeyPathArrayForKeyPathString:(NSString *)keyPaths;
 {
     
-    // property를 가지고 있는지 체크
-    if (![_propertyNames containsObject:keypath]) {
+    // 반환 객체
+    NSMutableArray *arrResponse = [[NSMutableArray alloc] init];
+    
+    // 하나 이상의 KeyPath를 (,)기준으로 분리
+    NSArray *arrKeyPaths = [keyPaths componentsSeparatedByString:@","];
+    
+    for (NSString *strKeyPath in arrKeyPaths) {
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        // KeyPath 내부에 *가 포함되어 있다면 모든 프로퍼티 이름을 가져와 KeyPath 생성
+        if ([self ContainString:strKeyPath onText:@"*"]) {
+            
+            // Property 이름을 목록으로 가져오기
+            NSArray *arrPropertyNames = [ALIntrospection getPropertyNamesOfClass:[self class] superInquiry:NO];
+            
+            for (NSString *strPropertyKey in arrPropertyNames) {
+                
+                NSString *absoluteKeyPath = [strKeyPath stringByReplacingOccurrencesOfString:@"*" withString:strPropertyKey];
+                if (![arrResponse containsObject:absoluteKeyPath]) {
+                    [arrResponse addObject:absoluteKeyPath];
+                }
+                
+            }
+            
+        } else {
+            [arrResponse addObject:strKeyPath];
+        }
         
-        NSDictionary *dicResponse = [self.observationManager valueForKey:keypath];
-        
-        id target   = [dicResponse objectForKey:MODEL_KEY];
-        NSString *strSeletor  = [dicResponse objectForKey:RESPONSE_TARGET];
-        
-        [target performSelector:NSSelectorFromString(strSeletor) withObject:[info objectForKey:@"test"]];   // Object 가져 올 키 변경
-        
-#pragma clang diagnostic pop
-        
-        // 관리 오브젝트 등록
-        [self.observationManager setObject:info forKey:keypath];
-    } else {
-        return NO;
     }
-    return YES;
+    
+    return arrResponse;
     
 }
 
-/* Start : keyPath = @"user.*, chat._id, chat.male" */
-//- (NSDictionary *)separateKeyPath:(NSString *)keyPath
-//{
-//    // 반환 객체
-//    NSMutableDictionary *dicKeyPath = [NSMutableDictionary new];
-//    
-//    // 하나 이상의 KeyPath를 (,)기준으로 분리 = @[ user.*, chat._id, chat.male ]
-//    NSArray *strKeyPaths = [keyPath componentsSeparatedByString:@","];
-//    
-//    for (NSString *strKeypath in strKeyPaths) {
-//        
-//        // 공백 및 개행 제거
-//        NSString *strAbsoluteKey = [strKeypath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-//        
-//        
-//        // 공백 및 개행 제거 후 KeyPath 분리 = user.name -> @[ @"user" , @"name" ] - 처음 값은 모델 key값 이라고 정의
-//        NSMutableArray *arrSeparatedKeyPath = [[strAbsoluteKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
-//                                               componentsSeparatedByString:@"."].mutableCopy;
-//        // model key = ex) user.name = @"User"
-//        NSString *strModelKey = [[arrSeparatedKeyPath firstObject] capitalizedString];
-//        [arrSeparatedKeyPath removeObjectAtIndex:0];    // Model key 지움
-//        if (![dicKeyPath objectForKey:strModelKey]) {
-//            [dicKeyPath setObject:[NSMutableArray array] forKey:strModelKey];
-//        }
-//        
-//        Class modelClass = NSClassFromString(strModelKey);
-//        NSParameterAssert(modelClass);  // Model이 있는지 검사
-//        
-//        for (NSString *strKey in arrSeparatedKeyPath) {
-//            
-//            if ([strKey isEqualToString:@"*"]) {
-//                
-//                NSArray *propertyNames = [ALIntrospection getPropertyNamesOfClass:modelClass superInquiry:NO];
-//                for (NSString *propertyKey in propertyNames) {
-//                    [dicKeyPath[strModelKey] addObject:propertyKey];
-//                }
-//                
-//            } else {
-//                [dicKeyPath[strModelKey] addObject:strKey];
-//            }
-//            
-//        }
-//        
-//    }
-//    
-//    return dicKeyPath;
-//}
-
+- (BOOL)ContainString:(NSString *)strSearch onText:(NSString *)strText
+{
+    return [strText rangeOfString:strSearch options:NSCaseInsensitiveSearch].location == NSNotFound ? FALSE : TRUE;
+}
 
 @end

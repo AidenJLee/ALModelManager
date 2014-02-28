@@ -35,12 +35,19 @@
                         change:(NSDictionary *)change
                        context:(void *)context
 {
-    if(self.valid && (__bridge id)context == self &&
-       ![[change valueForKey:NSKeyValueChangeNewKey] isEqual:[change valueForKey:NSKeyValueChangeOldKey]]) {
-        self.block(self.source, change);
+    
+    if(self.valid && (__bridge id)context == self) {
+        
+        // 데이터 변화가 있을 때만 블럭을 호출
+        id changeObject = [change valueForKey:NSKeyValueChangeNewKey];
+        if (![changeObject isEqual:[change valueForKey:NSKeyValueChangeOldKey]]) {
+            self.block(self.keyPath, self.source, changeObject);
+        }
+    
     } else {
         [super observeValueForKeyPath:path ofObject:object change:change context:context];
     }
+    
 }
 
 #pragma mark -
@@ -53,7 +60,7 @@
 
 - (void)invoke
 {
-    self.block(self.source, @{});
+    self.block(self.keyPath, self.source, @{});
 }
 
 @end

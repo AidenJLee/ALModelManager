@@ -6,30 +6,15 @@
 //  Copyright (c) 2014년 HoJun Lee. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "JSONModel.h"
 
-@interface User : NSObject <NSCopying, NSMutableCopying>
+@class Like;
+@interface User : JSONModel
 
-@property (strong, nonatomic) NSString *_id;
-@property (strong, nonatomic) NSString *facebook;
-@property (strong, nonatomic) NSString *email;
+@property (strong, nonatomic) NSString *userId;
 @property (strong, nonatomic) NSString *username;
 @property (strong, nonatomic) NSString *gender;
-@property (strong, nonatomic) NSString *link;
-@property (strong, nonatomic) NSString *birthday;
-@property (strong, nonatomic) NSString *address;
-@property (strong, nonatomic) NSArray *education;
-@property (strong, nonatomic) NSArray *work;
-@property (strong, nonatomic) NSArray *likes;
-@property (strong, nonatomic) NSString *likestate;
-@property (strong, nonatomic) NSDictionary *profiles;
-@property (strong, nonatomic) NSString *intro;
-@property (strong, nonatomic) NSDictionary *loc;
-@property (strong, nonatomic) NSArray *blacklists;
-@property (strong, nonatomic) NSDate *activity;
-@property (strong, nonatomic) NSDate *create_at;
-@property (strong, nonatomic) NSDate *update_at;
-
-- (id)initWithDictionary:(NSDictionary *)jsonDictionary;
+@property (strong, nonatomic) NSMutableArray *dogs;
+@property (strong, nonatomic) Like *like;
 
 @end

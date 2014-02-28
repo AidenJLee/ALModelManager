@@ -37,7 +37,7 @@
 {
     
 	objc_property_t property = class_getProperty(self, [getterName UTF8String]);
-	SEL result = selectorForPropertyGetter(property);
+	SEL result = [self selectorForPropertyGetter:property];
     
 	if (!property || !result) {
         return NULL;
@@ -56,7 +56,7 @@
 {
     
 	objc_property_t property = class_getProperty(self, [setterName UTF8String]);
-	SEL result = selectorForPropertySetter(property);
+	SEL result = [self selectorForPropertyGetter:property];
     
 	if (!property || !result) {
         return NULL;
@@ -152,15 +152,11 @@
     return [[self class] propertyNamesWithSuperInquiry:superInquiry];
 }
 
-@end
-
-
 #pragma mark -
-
-SEL selectorForPropertyGetter(objc_property_t property)
+#pragma mark - Private Method
+- (SEL)selectorForPropertyGetter:(objc_property_t)property
 {
-    
-	const char * attrs = property_getAttributes(property);
+    const char * attrs = property_getAttributes(property);
 	const char * p = strstr(attrs, ",G");
     
     if (!attrs || !p) {
@@ -183,35 +179,68 @@ SEL selectorForPropertyGetter(objc_property_t property)
 	free(selPtr);
 	selPtr = NULL;
 	return result;
-    
 }
 
-SEL property_getSetter( objc_property_t property )
-{
-    
-    const char * attrs = property_getAttributes(property);
-	const char * p = strstr(attrs, ",S");
-    
-	if (!attrs || !p) {
-        return NULL;
-    }
-	
-	p += 2;
-	const char * e = strchr(p, ',');
-	if ( e == NULL ) {
-        return (sel_getUid(p));
-    } else if (e == p) {
-        return NULL;
-    }
-	
-	int len = (int)(e - p);
-	char * selPtr = malloc(len + 1);
-	memcpy(selPtr, p, len);
-	selPtr[len] = '\0';
-	SEL result = sel_getUid(selPtr);
-	free(selPtr);
-	selPtr = NULL;
-	return result;
-    
-}
+@end
+
+
+//#pragma mark -
+//
+//SEL selectorForPropertyGetter(objc_property_t property)
+//{
+//    
+//	const char * attrs = property_getAttributes(property);
+//	const char * p = strstr(attrs, ",G");
+//    
+//    if (!attrs || !p) {
+//        return NULL;
+//    }
+//	
+//	p += 2;
+//	const char * e = strchr(p, ',');
+//	if ( e == NULL ) {
+//        return (sel_getUid(p));
+//    } else if (e == p) {
+//        return NULL;
+//    }
+//    
+//	int len = (int)(e - p);
+//	char * selPtr = malloc( len + 1 );
+//	memcpy(selPtr, p, len);
+//	selPtr[len] = '\0';
+//	SEL result = sel_getUid(selPtr);
+//	free(selPtr);
+//	selPtr = NULL;
+//	return result;
+//    
+//}
+//
+//SEL property_getSetter( objc_property_t property )
+//{
+//    
+//    const char * attrs = property_getAttributes(property);
+//	const char * p = strstr(attrs, ",S");
+//    
+//	if (!attrs || !p) {
+//        return NULL;
+//    }
+//	
+//	p += 2;
+//	const char * e = strchr(p, ',');
+//	if ( e == NULL ) {
+//        return (sel_getUid(p));
+//    } else if (e == p) {
+//        return NULL;
+//    }
+//	
+//	int len = (int)(e - p);
+//	char * selPtr = malloc(len + 1);
+//	memcpy(selPtr, p, len);
+//	selPtr[len] = '\0';
+//	SEL result = sel_getUid(selPtr);
+//	free(selPtr);
+//	selPtr = NULL;
+//	return result;
+//    
+//}
 

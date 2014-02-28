@@ -30,6 +30,7 @@
                                        options:(NSKeyValueObservingOptions)options
                                          block:(ObservationObjectBlock)block
 {
+    
     ALObservationObject *binding = [[ALObservationObject alloc] init];
     
     binding.owner = owner;
@@ -38,10 +39,10 @@
     binding.block = block;
     
     [[self allObjectObservers] addObject:binding];
-    
     [self addObserver:binding forKeyPath:keyPath options:options context:(__bridge void *)binding];
     
     return binding;
+    
 }
 
 - (void)removeAllObservers

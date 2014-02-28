@@ -18,7 +18,7 @@
 //객체에서 주어진 이름을 가진 프로퍼티의 값을 셋팅한다.
 + (void)setPropertyValueOfObject:(id)object name:(NSString*)name value:(id)value {
     Ivar ivar = class_getInstanceVariable([object class], [[NSString stringWithFormat:@"_%@", name] UTF8String]);
-    object_setIvar( object, ivar, value );;
+    object_setIvar( object, ivar, value );
 }
 
 //객체에서 주어진 이름을 가진 프로퍼티의 값을 가져온다.
