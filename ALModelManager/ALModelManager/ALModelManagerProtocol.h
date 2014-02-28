@@ -13,7 +13,7 @@ typedef void (^ALResponseBlock)(NSString *observedKey, id observed, id changedOb
 @protocol ALModelManagerProtocol <NSObject>
 
 @required
-- (NSArray *)addKVOTarget:(id)target keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock;
+- (void)addKVOTarget:(id)target keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock;
 - (BOOL)removeAllObserverForTarget:(id)target keyPaths:(NSString *)keyPaths;
 - (void)removeAllObserverForTarget:(id)target;
 

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^ObservationObjectBlock)(NSString *observationKey, id observed, id changeObject);
+typedef void (^ObservationObjectBlock)(NSString *observationKey, id observed, NSDictionary *change);
 
 @interface ALObservationObject : NSObject
 

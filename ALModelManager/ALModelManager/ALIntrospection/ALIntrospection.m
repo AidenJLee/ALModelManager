@@ -52,7 +52,6 @@
     }
     NSString *attr = [NSString stringWithFormat:@"%s", property_getAttributes( p0 )];
     NSArray *attrSplit = [attr componentsSeparatedByString:@"\""];
-    //"T@"NSString",R,V_test"에서 NSString만 추출해야 한다.
     NSString *className = nil;
     if ([attrSplit count] >= 2) {
         className = [attrSplit objectAtIndex:1];

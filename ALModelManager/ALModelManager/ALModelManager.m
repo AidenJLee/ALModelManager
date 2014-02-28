@@ -69,8 +69,8 @@ static ALModelManager *_modelManager = nil;
 }
 
 /**
- *  감시 할 대상에 대한 정보를 keypath를 통해 받아서 대상에 변경이 일어나면 block 코드를 호출 한다
- *  !주의 : 2 Depth 까지의 KeyPath만 지원 - @"key1.key2"
+ *  감시 할 대상에 대한 정보를 keypath를 통해 받아서 대상에 변경이 일어나면 block 코드를 호출 한다.
+ *  ! 주의 : '*'로 모든 프로퍼티를 가져 올 수 있으나 '*'은 가장 마지막에만 있어야 한다.
  *
  *  @param target   콜백 대상
  *  @param keyPaths 감시 대상
@@ -78,7 +78,7 @@ static ALModelManager *_modelManager = nil;
  *
  *  @return Observer를 적용한 KeyPath 목록
  */
-- (NSArray *)addKVOTarget:(id)target keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
+- (void)addKVOTarget:(id)target keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
 {
     
     NSParameterAssert(target);
@@ -87,63 +87,42 @@ static ALModelManager *_modelManager = nil;
     // 중복 및 개행 제거 - [ @" ", @"\n" ];
     NSString *strTrimKeyPaths = [keyPaths stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-    // 하나 이상의 KeyPath를 분리
-    NSMutableArray *arrKeyPaths = [self createKeyPathArrayForKeyPathString:strTrimKeyPaths];
+    // 하나 이상의 KeyPath를 (,)기준으로 분리
+    NSArray *arrKeyPaths = [strTrimKeyPaths componentsSeparatedByString:@","];
     
-    for (NSString *keypath in arrKeyPaths) {
+    // 하나 이상의 KeyPath를 분리
+    NSMutableArray *arrAbsoluteKeyPaths = [self createKeyPathArrayForKeyPathString:arrKeyPaths];
+    
+    for (NSString *keypath in arrAbsoluteKeyPaths) {
         
-        NSArray *arrTargets = [_observationManager objectForKey:keypath];
+        NSMutableArray *arrTargets = [_observationManager objectForKey:keypath];
         if (!arrTargets) {
-            
-            //            // KVO 등록
-            //            [target observe:self keyPath:keypath block:^(NSString *observationKey, id observed, id changeObject) {
-            //                responseBlock(observationKey, observed, changeObject);
-            //            }];
-            //
-            //            // 관리 오브젝트 등록
-            //            NSMutableArray *arrTargets = @[target].mutableCopy;
-            //            [_observationManager setObject:arrTargets forKey:keypath];
-            
+            arrTargets = [[NSMutableArray alloc] initWithObjects:target, nil];
+            // 관리 오브젝트 등록
+            [_observationManager setObject:arrTargets forKey:keypath];
+            // KVO 등록
+            [target observe:self keyPath:keypath block:^(NSString *observationKey, id observed, NSDictionary *change) {
+                responseBlock(observationKey, observed, [change valueForKey:NSKeyValueChangeNewKey]);
+            }];
         } else if (![arrTargets containsObject:target]) {
-            
-            //            // KVO 등록
-            //            [target observe:self keyPath:keypath block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
-            //                responseBlock(observeKeypath, observed, [change valueForKey:NSKeyValueChangeNewKey]);
-            //            }];
-            //
-            //            // 관리 오브젝트 등록
-            //            [_observationManager[keypath] addObject:target];
-            
+            [arrTargets addObject:target];
+            // 관리 오브젝트 등록
+            [_observationManager setObject:arrTargets forKey:keypath];
+            // KVO 등록
+            [target observe:self keyPath:keypath block:^(NSString *observationKey, id observed, NSDictionary *change) {
+                responseBlock(observationKey, observed, [change valueForKey:NSKeyValueChangeNewKey]);
+            }];
         } else {
-            
-            // 이미 등록 되어 있는것으로 판단하여 반환 배열에서 Object를 제거
-            [arrKeyPaths removeObject:keypath];
-            
+            // 이미 등록 되어 있는것으로 판단
         }
         
     }
-    
-    return arrKeyPaths;
     
 }
 
 - (void)removeAllObserverForTarget:(id)target
 {
     
-}
-- (BOOL)searchKeyPath: (NSArray *)keyPath
-{
-    BOOL isHaveStar = NO;
-    
-    for (NSString *str in keyPath)
-    {
-        if ([str isEqualToString:@"*"])
-        {
-            isHaveStar = YES;
-        }
-    }
-    
-    return isHaveStar;
 }
 
 - (BOOL)removeAllObserverForTarget:(id)target keyPaths:(NSString *)keyPaths
@@ -154,22 +133,21 @@ static ALModelManager *_modelManager = nil;
 
 #pragma mark -
 #pragma mark - Private Method
-- (NSMutableArray *)createKeyPathArrayForKeyPathString:(NSString *)keyPaths;
+- (NSMutableArray *)createKeyPathArrayForKeyPathString:(NSArray *)arrKeyPaths;
 {
     
     // 반환 객체
     NSMutableArray *arrResponse = [[NSMutableArray alloc] init];
-    
-    // 하나 이상의 KeyPath를 (,)기준으로 분리
-    NSArray *arrKeyPaths = [keyPaths componentsSeparatedByString:@","];
     
     for (NSString *strKeyPath in arrKeyPaths) {
         
         // KeyPath 내부에 *가 포함되어 있다면 모든 프로퍼티 이름을 가져와 KeyPath 생성
         if ([self ContainString:strKeyPath onText:@"*"]) {
             
+            NSString *propertyKeyPath = [strKeyPath stringByReplacingOccurrencesOfString:@".*" withString:@""];
+            
             // Property 이름을 목록으로 가져오기
-            NSArray *arrPropertyNames = [ALIntrospection getPropertyNamesOfClass:[self class] superInquiry:NO];
+            NSArray *arrPropertyNames = [ALIntrospection getPropertyNamesOfClass:[[self valueForKeyPath:propertyKeyPath] class] superInquiry:NO];
             
             for (NSString *strPropertyKey in arrPropertyNames) {
                 
