@@ -80,52 +80,51 @@ static ALModelManager *_modelManager = nil;
  */
 - (NSArray *)addKVOTarget:(id)target keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
 {
-    NSLog(keyPaths);
-//            // KVO 등록
-//            [target observe:self keyPath:keypath block:^(NSString *observationKey, id observed, id changeObject) {
-//                responseBlock(observationKey, observed, changeObject);
-//            }];
+    
+    NSParameterAssert(target);
+    NSParameterAssert(keyPaths);
+    
+    // 중복 및 개행 제거 - [ @" ", @"\n" ];
+    NSString *strTrimKeyPaths = [keyPaths stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    // 하나 이상의 KeyPath를 분리
+    NSMutableArray *arrKeyPaths = [self createKeyPathArrayForKeyPathString:strTrimKeyPaths];
+    
+    for (NSString *keypath in arrKeyPaths) {
         
-        /* 일단 보류 ( 정확한 데이터 타입 체크를 위해 복잡성이 증가함 )
-        // 처음값이 모델 또는 컬렉션 명이라고 판단
-//        NSString *strModelName = [[arrSeparatedKeyPath firstObject] capitalizedString]; // 일단 보류
-        
-        // 모델이 있는지 체크
-        Class modelClass = NSClassFromString(strModelName);
-        id model = [modelClass alloc];
-        
-        // Model key 지움
-        [arrSeparatedKeyPath removeObjectAtIndex:0];
-        */
-        
-//        if ([self Contains:strAbsoluteKey on:@"*"]) {
-//            
-//            // 관리 오브젝트 등록
-//            NSMutableArray *arrTargets = @[target].mutableCopy;
-//            [_observationManager setObject:arrTargets forKey:keypath];
+        NSArray *arrTargets = [_observationManager objectForKey:keypath];
+        if (!arrTargets) {
             
-//        } else if (![arrTargets containsObject:target]) {
-//            
-//            // KVO 등록
-//            [target observe:self keyPath:keypath block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
-//                responseBlock(observeKeypath, observed, [change valueForKey:NSKeyValueChangeNewKey]);
-//            }];
-//            
-//            // 관리 오브젝트 등록
-//            [_observationManager[keypath] addObject:target];
-//
-//        } else {
-//            
-//            // 이미 등록 되어 있는것으로 판단하여 반환 배열에서 Object를 제거
-//            [arrKeyPaths removeObject:keypath];
-//            
-//        }
-//        
-//    }
-//
-//    return arrKeyPaths;
-//
-    return nil;
+            //            // KVO 등록
+            //            [target observe:self keyPath:keypath block:^(NSString *observationKey, id observed, id changeObject) {
+            //                responseBlock(observationKey, observed, changeObject);
+            //            }];
+            //
+            //            // 관리 오브젝트 등록
+            //            NSMutableArray *arrTargets = @[target].mutableCopy;
+            //            [_observationManager setObject:arrTargets forKey:keypath];
+            
+        } else if (![arrTargets containsObject:target]) {
+            
+            //            // KVO 등록
+            //            [target observe:self keyPath:keypath block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
+            //                responseBlock(observeKeypath, observed, [change valueForKey:NSKeyValueChangeNewKey]);
+            //            }];
+            //
+            //            // 관리 오브젝트 등록
+            //            [_observationManager[keypath] addObject:target];
+            
+        } else {
+            
+            // 이미 등록 되어 있는것으로 판단하여 반환 배열에서 Object를 제거
+            [arrKeyPaths removeObject:keypath];
+            
+        }
+        
+    }
+    
+    return arrKeyPaths;
+    
 }
 
 - (void)removeAllObserverForTarget:(id)target
