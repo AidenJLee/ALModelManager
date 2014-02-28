@@ -172,6 +172,12 @@ static ALModelManager *_modelManager = nil;
     return arrResponse;
     
 }
+- (BOOL)setValueForKeyPath:(NSString*)keyPath andValue:(id)Value andTargetObject:(id)object
+{
+    [object setValue:Value forKeyPath:keyPath];
+    
+    return YES;
+}
 
 - (BOOL)ContainString:(NSString *)strSearch onText:(NSString *)strText
 {

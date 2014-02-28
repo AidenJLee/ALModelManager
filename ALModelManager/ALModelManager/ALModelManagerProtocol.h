@@ -16,5 +16,5 @@ typedef void (^ALResponseBlock)(NSString *observedKey, id observed, id changedOb
 - (void)addKVOTarget:(id)target keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock;
 - (BOOL)removeAllObserverForTarget:(id)target keyPaths:(NSString *)keyPaths;
 - (void)removeAllObserverForTarget:(id)target;
-
+- (BOOL)setValueForKeyPath:(NSString*)keyPath andValue:(id)Value andTargetObject:(id)object;
 @end

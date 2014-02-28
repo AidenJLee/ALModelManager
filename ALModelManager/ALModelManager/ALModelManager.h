@@ -22,4 +22,5 @@
 + (ALModelManager *)sharedInstance;
 + (void)releaseInstance;
 
+
 @end
