@@ -8,15 +8,13 @@
 
 #import "JSONModel.h"
 
+@class Like;
 @interface User : JSONModel
 
 @property (strong, nonatomic) NSString *userId;
-@property (strong, nonatomic) NSString *facebook;
-@property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *username;
 @property (strong, nonatomic) NSString *gender;
-@property (strong, nonatomic) NSString *birthday;
-@property (strong, nonatomic) NSString *address;
 @property (strong, nonatomic) NSMutableArray *dogs;
+@property (strong, nonatomic) Like *like;
 
 @end

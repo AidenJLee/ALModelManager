@@ -21,6 +21,7 @@
 		0F647C2A18A9298F00EC960A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F647C2918A9298F00EC960A /* User.m */; };
 		0F92D4C518AA67910028B7D4 /* ALObservationObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F92D4C418AA67910028B7D4 /* ALObservationObject.m */; };
 		0F92D4C818AA6EE60028B7D4 /* NSObject+Observation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F92D4C718AA6EE60028B7D4 /* NSObject+Observation.m */; };
+		E816345E18C0525200DD8C62 /* Like.m in Sources */ = {isa = PBXBuildFile; fileRef = E816345D18C0525200DD8C62 /* Like.m */; };
 		E83DC15118BDDAA9001256C8 /* JSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E83DC15018BDDAA9001256C8 /* JSONModel.m */; };
 		E83DC15518BDDECF001256C8 /* Dog.m in Sources */ = {isa = PBXBuildFile; fileRef = E83DC15418BDDECF001256C8 /* Dog.m */; };
 		E8A0CFBB18B71358008B63E5 /* NSObject+Properties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A0CFBA18B71358008B63E5 /* NSObject+Properties.m */; };
@@ -74,6 +75,8 @@
 		0F92D4C418AA67910028B7D4 /* ALObservationObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALObservationObject.m; sourceTree = "<group>"; };
 		0F92D4C618AA6EE60028B7D4 /* NSObject+Observation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Observation.h"; sourceTree = "<group>"; };
 		0F92D4C718AA6EE60028B7D4 /* NSObject+Observation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Observation.m"; sourceTree = "<group>"; };
+		E816345C18C0525200DD8C62 /* Like.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Like.h; sourceTree = "<group>"; };
+		E816345D18C0525200DD8C62 /* Like.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Like.m; sourceTree = "<group>"; };
 		E83DC14F18BDDAA9001256C8 /* JSONModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONModel.h; sourceTree = "<group>"; };
 		E83DC15018BDDAA9001256C8 /* JSONModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONModel.m; sourceTree = "<group>"; };
 		E83DC15318BDDECF001256C8 /* Dog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dog.h; sourceTree = "<group>"; };
@@ -209,6 +212,7 @@
 			children = (
 				0F647C2818A9298F00EC960A /* User.h */,
 				0F647C2918A9298F00EC960A /* User.m */,
+				E816345B18C0524700DD8C62 /* Like */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -227,6 +231,15 @@
 				0F1E37A918AA7B180043CF78 /* NSObject+ObjectBinding.m */,
 			);
 			path = ALObserversAndBinders;
+			sourceTree = "<group>";
+		};
+		E816345B18C0524700DD8C62 /* Like */ = {
+			isa = PBXGroup;
+			children = (
+				E816345C18C0525200DD8C62 /* Like.h */,
+				E816345D18C0525200DD8C62 /* Like.m */,
+			);
+			path = Like;
 			sourceTree = "<group>";
 		};
 		E83DC15218BDDD99001256C8 /* Dog */ = {
@@ -320,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E83DC15518BDDECF001256C8 /* Dog.m in Sources */,
+				E816345E18C0525200DD8C62 /* Like.m in Sources */,
 				E8A0CFBB18B71358008B63E5 /* NSObject+Properties.m in Sources */,
 				0F647C2A18A9298F00EC960A /* User.m in Sources */,
 				0F92D4C518AA67910028B7D4 /* ALObservationObject.m in Sources */,

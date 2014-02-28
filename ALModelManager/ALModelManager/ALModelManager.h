@@ -16,7 +16,7 @@
 
 // 이곳에 Data Model들을 Property로 등록한다.
 // 외부에 singleton이면서 DataManager 역활을 하는 Object를 두었는데 싱글톤 남발인듯 하여 이곳으로 변경했다.
-// 데이터 변경은 직접 엑세스 하는걸로 변경.
+// 데이터 변경은 위험 하지만 Direct Property Access로 결정 - 이 부분은 문서 및 리뷰로 해결
 @property (strong, nonatomic) NSMutableArray *dataModels; //data models sample
 
 + (ALModelManager *)sharedInstance;

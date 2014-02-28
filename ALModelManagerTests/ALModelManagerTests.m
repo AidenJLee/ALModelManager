@@ -24,7 +24,6 @@
 - (void)setUp
 {
     [super setUp];
-    [[ALModelManager sharedInstance] didActiveManager];
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
@@ -36,80 +35,46 @@
 
 - (void)testExample
 {
-    [[ALModelManager sharedInstance] didActiveManager];
-    [[ALModelManager sharedInstance] addTarget:self observerForKeyPaths:@"users, users" block:^(NSString *observedKey, id changeObject) {
-        NSLog(@"observedKey : %@ " , observedKey);
-        NSLog(@"change object : %@ " , changeObject);
-    }];
+    NSMutableDictionary *info = @{
+                                  @"menuitems" : @{
+                                          @"id"         : @"don`t tell mama",
+                                          @"username"   : @"aiden",
+                                          @"gender"     : @"male",
+                                          @"like"       : @{
+                                                  @"movie"    : @"ins....",
+                                                  @"sports"   : @"야구",
+                                                  @"something": @"Nice ambience, great food. The teriyaki is a must try!",
+                                                  },
+                                          @"dogs"       : @[@{
+                                                                @"name"    : @"puppt",
+                                                                @"gender"  : @"female",
+                                                                @"birthday": @"2012.01.01",
+                                                                },
+                                                            @{
+                                                                @"name"    : @"bowwow",
+                                                                @"gender"  : @"male",
+                                                                @"birthday": @"2014.02.01",
+                                                                }
+                                                      ]
+                                       }
+                                  }.mutableCopy;
     
-    NSDictionary *userDic = @{
-                              @"_id": @"13579",
-                              @"facebook": @"534985034579",
-                              @"email": @"entist@me.com",
-                              @"username": @"aidenjlee"
-                              };
+    User *user = [[User alloc] initWithDictionary:info[@"menuitems"]];
     
-    [[ALModelManager sharedInstance] setDataObject:userDic forPropertyKey:@"users"];
-    
-//    NSLog(@"collectiob : %@ " , [ALModelManager sharedInstance].users);
-    
-    
-//    objc_setAssociatedObject([ALDataManager sharedInstance], @"models", @{@"hi": @"i`m model"}, OBJC_ASSOCIATION_RETAIN);
-//    NSLog(@"%@", objc_getAssociatedObject([ALDataManager sharedInstance], @"models"));
-//    
-//    [ALIntrospection setPropertyValueOfObject:[ALDataManager sharedInstance] name:@"model" value:@{ @"dynamic": @"oh ye~" }];
-//    
-//    NSLog(@"In P : %@ " , [ALIntrospection getPropertyValueOfObject:[ALDataManager sharedInstance] name:@"observerObjects"]);
-//    
-//    NSLog(@" %@", [ALIntrospection getPropertyNamesOfClass:[[ALModelManager sharedInstance] class] superInquiry:NO]);
-//    if ([ALIntrospection hasPropertyAtObject:[ALDataManager sharedInstance] name:@"observerObjects"]) {
-//        NSLog(@"YES");
-//    } else {
-//        NSLog(@"NO");
-//    }
-    
-//    [self separateKeyPath:@"User.user.id, NSDictionary.motels.name, User.some.property,  User.user.*"];
+    NSLog(@"id : %@ " , user.userId);
+    NSLog(@"sports : %@ " , [user valueForKeyPath:@"like.sports"]);
     XCTAssertNil(nil, @"test complete");
     
 }
 
-/* Start : keyPath = @"user.*, chat._id, chat.male" */
-- (NSDictionary *)separateKeyPath:(NSString *)keyPath
-{
-    // 반환 객체
-    NSMutableDictionary *dicKeyPath = [NSMutableDictionary new];
-    
-    // 하나 이상의 KeyPath를 (,)기준으로 분리
-    /* keyPath = @[ user.*, chat._id, chat.male ] */
-    NSArray *strKeyPaths = [keyPath componentsSeparatedByString:@","];
-    
-    for (NSString *strKeypath in strKeyPaths) {
-        
-        // 공백 및 개행 제거
-        NSString *strAbsoluteKey = [strKeypath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        
-        // KeyPath를 .으로 분리
-        NSMutableArray *arrSeparatedKeyPath = [strAbsoluteKey componentsSeparatedByString:@"."].mutableCopy;
-        // 처음값이 모델 또는 컬렉션 명이라고 판단
-        NSString *strModelKey = [[arrSeparatedKeyPath firstObject] capitalizedString];
-        // 모델이 있는지 체크
-        Class modelClass = NSClassFromString(strModelKey);
-        
-        for (NSString *strKey in arrSeparatedKeyPath) {
-            if ([strKey isEqualToString:@"*"]) {
-                
-                NSArray *propertyNames = [ALIntrospection getPropertyNamesOfClass:modelClass superInquiry:NO];
-                for (NSString *propertyKey in propertyNames) {
-                    NSLog(@"%@", [strAbsoluteKey stringByReplacingOccurrencesOfString:@"*" withString:propertyKey]);
-                }
-                
-            }
-        }
-        NSLog(@"%@", strAbsoluteKey);
-        
-    }
-    
-    return dicKeyPath;
-}
-
 @end
+
+/*
+ @property (strong, nonatomic) NSString *username;
+ @property (strong, nonatomic) NSString *gender;
+ @property (strong, nonatomic) NSMutableArray *dogs;
+ @property (strong, nonatomic) Like *like;
+ @property (strong, nonatomic) NSString *movie;
+ @property (strong, nonatomic) NSString *sports;
+ @property (strong, nonatomic) NSString *something;
+*/

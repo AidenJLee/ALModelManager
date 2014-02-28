@@ -34,7 +34,7 @@
 // subclass implementation should set the correct key value mappings for custom keys
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
-    NSLog(@"%s | Undefined Key: %@", __FUNCTION__, key);
+    NSLog(@"Undefined Key: %@  Function : %s  Source Line : %d" , key, __FUNCTION__, __LINE__);
 }
 
 #pragma mark -

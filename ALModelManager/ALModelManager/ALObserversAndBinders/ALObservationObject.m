@@ -39,8 +39,9 @@
     if(self.valid && (__bridge id)context == self) {
         
         // 데이터 변화가 있을 때만 블럭을 호출
-        if (![[change valueForKey:NSKeyValueChangeNewKey] isEqual:[change valueForKey:NSKeyValueChangeOldKey]]) {
-            self.block(self.keyPath, self.source, change);
+        id changeObject = [change valueForKey:NSKeyValueChangeNewKey];
+        if (![changeObject isEqual:[change valueForKey:NSKeyValueChangeOldKey]]) {
+            self.block(self.keyPath, self.source, changeObject);
         }
     
     } else {

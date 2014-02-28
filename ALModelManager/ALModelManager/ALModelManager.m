@@ -39,11 +39,6 @@ static ALModelManager *_modelManager = nil;
 + (void)releaseInstance
 {
     _modelManager = nil;
-    NSArray *inventory = @[ @"iPhone5", @"iPhone5", @"iPhone5", @"iPadMini", @"macBookPro", @"macBookPro" ];
-    
-    [inventory valueForKeyPath:@"@unionOfObjects.name"]; // "iPhone 5", "iPhone 5", "iPhone 5", "iPad Mini", "MacBook Pro", "MacBook Pro"
-    [inventory valueForKeyPath:@"@distinctUnionOfObjects.name"]; // "iPhone 5", "iPad Mini", "MacBook Pro"
-    
 #warning 옵저버 모두 지우는 로직 추가해야 함
     //    for (NSDictionary *dicObserverInfo in _observationManager) {
     //        [dicObserverInfo[@"someKey"] removeAllObservations];
@@ -75,6 +70,7 @@ static ALModelManager *_modelManager = nil;
 
 /**
  *  감시 할 대상에 대한 정보를 keypath를 통해 받아서 대상에 변경이 일어나면 block 코드를 호출 한다
+ *  !주의 : 2 Depth 까지의 KeyPath만 지원 - @"key1.key2"
  *
  *  @param target   콜백 대상
  *  @param keyPaths 감시 대상
@@ -88,8 +84,8 @@ static ALModelManager *_modelManager = nil;
     NSParameterAssert(target);
     NSParameterAssert(keyPaths);
     
-    // 중복 및 개행 제거
-    NSString *strTrimKeyPaths = [keyPaths stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]; // [ @" ", @"\n" ];
+    // 중복 및 개행 제거 - [ @" ", @"\n" ];
+    NSString *strTrimKeyPaths = [keyPaths stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     // 하나 이상의 KeyPath를 분리
     NSMutableArray *arrKeyPaths = [self createKeyPathArrayForKeyPathString:strTrimKeyPaths];
@@ -99,24 +95,24 @@ static ALModelManager *_modelManager = nil;
         NSArray *arrTargets = [_observationManager objectForKey:keypath];
         if (!arrTargets) {
             
-            // KVO 등록
-            [target observe:self keyPath:keypath block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
-                responseBlock(observeKeypath, observed, [change valueForKey:NSKeyValueChangeNewKey]);
-            }];
-            
-            // 관리 오브젝트 등록
-            NSMutableArray *arrTargets = @[target].mutableCopy;
-            [_observationManager setObject:arrTargets forKey:keypath];
+//            // KVO 등록
+//            [target observe:self keyPath:keypath block:^(NSString *observationKey, id observed, id changeObject) {
+//                responseBlock(observationKey, observed, changeObject);
+//            }];
+//            
+//            // 관리 오브젝트 등록
+//            NSMutableArray *arrTargets = @[target].mutableCopy;
+//            [_observationManager setObject:arrTargets forKey:keypath];
             
         } else if (![arrTargets containsObject:target]) {
             
-            // KVO 등록
-            [target observe:self keyPath:keypath block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
-                responseBlock(observeKeypath, observed, [change valueForKey:NSKeyValueChangeNewKey]);
-            }];
-            
-            // 관리 오브젝트 등록
-            [_observationManager[keypath] addObject:target];
+//            // KVO 등록
+//            [target observe:self keyPath:keypath block:^(NSString *observeKeypath, id observed, NSDictionary *change) {
+//                responseBlock(observeKeypath, observed, [change valueForKey:NSKeyValueChangeNewKey]);
+//            }];
+//            
+//            // 관리 오브젝트 등록
+//            [_observationManager[keypath] addObject:target];
             
         } else {
             
@@ -139,32 +135,6 @@ static ALModelManager *_modelManager = nil;
 - (BOOL)removeAllObserverForTarget:(id)target keyPaths:(NSString *)keyPaths
 {
     return NO;
-}
-
-
-// 동휘씨에게 부탁함.
-- (BOOL)setDataObject:(id)object forPropertyKey:(NSString *)key;
-{
-    
-    // Collection과 Custom Model의 분리가 쉽지 않아서 일단은 뎁스는 1뎁스만 지원
-    // ALModelManager가 key에 해당하는 Property를 가지고 있는지 체크
-//    if ([_propertyNames containsObject:key]) {
-    
-        NSArray *arrKeyPaths = [key componentsSeparatedByString:@"."];
-        
-        if ([arrKeyPaths count] > 1) {
-            NSString *strFirstKey = [arrKeyPaths firstObject];
-            id propertyValue = [ALIntrospection getPropertyValueOfObject:self name:strFirstKey];
-            [propertyValue setValue:object forKey:key];
-        } else {
-            [self setValue:object forKey:key];
-        }
-//        
-//    } else {
-//        return NO;
-//    }
-    return YES;
-    
 }
 
 

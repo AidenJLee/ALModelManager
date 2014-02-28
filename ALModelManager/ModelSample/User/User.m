@@ -8,6 +8,7 @@
 
 #import "User.h"
 #import "Dog.h"
+#import "Like.h"
 
 @implementation User
 
@@ -18,6 +19,7 @@
     self = [super init];
     if (self) {
         _dogs = [[NSMutableArray alloc] init];
+        _like = [[Like alloc] init];
     }
     return self;
 }
@@ -38,8 +40,7 @@
 // ex) Objective-c 예약어와 키가 겹쳐서 충돌이 난다면 여기서 변경
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
-    
-    NSLog(@"Undefined Key: %@", key);
+    NSLog(@"Undefined Key: %@  Function : %s  Source Line : %d" , key, __FUNCTION__, __LINE__);
     if([key isEqualToString:@"id"]) { // 충돌 Sample
         self.userId = value;
     } else if ([key isEqualToString:@"__v"]) {
@@ -56,13 +57,21 @@
     
     // 하위 Depth 맵핑 - Dog
     if([key isEqualToString:@"dogs"]) {
+        
         for(NSMutableDictionary *dictDog in value)
         {
             Dog *thisDog = [[Dog alloc] initWithDictionary:dictDog];
             [self.dogs addObject:thisDog];
         }
+        
+    } else if ([key isEqualToString:@"like"]) {
+        
+        self.like = [[Like alloc] initWithDictionary:value];
+        
     } else {
+        
         [super setValue:value forKey:key];
+        
     }
     
 }
