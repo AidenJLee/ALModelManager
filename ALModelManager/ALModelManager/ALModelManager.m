@@ -78,10 +78,17 @@ static ALModelManager *_modelManager = nil;
  *
  *  @return Observer를 적용한 KeyPath 목록
  */
-- (void)addKVOTarget:(id)target keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
+- (void)addKVOForOwner:(id)owner keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
 {
     
-    NSParameterAssert(target);
+    [self addKVOForObject:self owner:owner keyPaths:keyPaths block:responseBlock];
+    
+}
+
+- (void)addKVOForObject:(id)object owner:(id)owner keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
+{
+    
+    NSParameterAssert(owner);
     NSParameterAssert(keyPaths);
     
     // 중복 및 개행 제거 - [ @" ", @"\n" ];
@@ -97,19 +104,19 @@ static ALModelManager *_modelManager = nil;
         
         NSMutableArray *arrTargets = [_observationManager objectForKey:keypath];
         if (!arrTargets) {
-            arrTargets = [[NSMutableArray alloc] initWithObjects:target, nil];
+            arrTargets = [[NSMutableArray alloc] initWithObjects:object, nil];
             // 관리 오브젝트 등록
             [_observationManager setObject:arrTargets forKey:keypath];
             // KVO 등록
-            [target observe:self keyPath:keypath block:^(NSString *observationKey, id observed, NSDictionary *change) {
+            [object addObserverForKeyPath:keyPaths owner:owner block:^(NSString *observationKey, id observed, NSDictionary *change) {
                 responseBlock(observationKey, observed, [change valueForKey:NSKeyValueChangeNewKey]);
             }];
-        } else if (![arrTargets containsObject:target]) {
-            [arrTargets addObject:target];
+        } else if (![arrTargets containsObject:owner]) {
+            [arrTargets addObject:object];
             // 관리 오브젝트 등록
             [_observationManager setObject:arrTargets forKey:keypath];
             // KVO 등록
-            [target observe:self keyPath:keypath block:^(NSString *observationKey, id observed, NSDictionary *change) {
+            [object addObserverForKeyPath:keyPaths owner:owner block:^(NSString *observationKey, id observed, NSDictionary *change) {
                 responseBlock(observationKey, observed, [change valueForKey:NSKeyValueChangeNewKey]);
             }];
         } else {
@@ -120,21 +127,16 @@ static ALModelManager *_modelManager = nil;
     
 }
 
-- (void)observerTarget:(id)target keyPath:(NSString *)keyPath block:(ALResponseBlock)responseBlock
+- (void)removeAllObservers
+{
+    [self removeAllObservers];
+    [self removeAllObservations];
+}
+
+- (void)removeAllObserversForObject:(id)object owner:(id)owner
 {
     
 }
-
-- (void)removeAllObserverForTarget:(id)target
-{
-    
-}
-
-- (BOOL)removeAllObserverForTarget:(id)target keyPaths:(NSString *)keyPaths
-{
-    return NO;
-}
-
 
 #pragma mark -
 #pragma mark - Private Method

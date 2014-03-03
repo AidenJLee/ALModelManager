@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "ALIntrospection.h"
 #import "ALModelManager.h"
-#import "NSObject+Properties.h"
+#import "ALObservation.h"
 
 #import "User.h"
 
@@ -35,10 +35,10 @@
 
 - (void)testExample
 {
-    ALModelManager *manager = [ALModelManager sharedInstance];
+    
     
     NSMutableDictionary *info = @{
-                                  @"menuitems" : @{
+                                  @"user" : @{
                                           @"id"         : @"don`t tell mama",
                                           @"username"   : @"aiden",
                                           @"gender"     : @"male",
@@ -61,11 +61,20 @@
                                        }
                                   }.mutableCopy;
     
-    User *user = [[User alloc] initWithDictionary:info[@"menuitems"]];
+    User *user = [[User alloc] initWithDictionary:info[@"user"]];
     
     NSLog(@"id : %@ " , user.userId);
     NSLog(@"sports : %@ " , [user valueForKeyPath:@"like.sports"]);
     XCTAssertNil(nil, @"test complete");
+    
+    ALModelManager *manager = [ALModelManager sharedInstance];
+    
+    [manager setUser:user];
+    [self observe:manager keyPath:@"user.username" block:^(NSString *observationKey, id observed, NSDictionary *change) {
+        NSLog(@"change : %@ " , [change valueForKey:NSKeyValueChangeNewKey]);
+    }];
+    
+    manager.user.username = @"aidenjlee";
     
     [manager setValueForKeyPath:@"like.sports" andValue:@"축구" andTargetObject:user];
     NSLog(@"sports : %@ " , [user valueForKeyPath:@"like.sports"]);
