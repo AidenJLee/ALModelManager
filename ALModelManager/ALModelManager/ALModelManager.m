@@ -24,50 +24,9 @@
 
 @implementation ALModelManager
 
-#pragma mark -
-#pragma mark SIngleton Create & Release
-static ALModelManager *_modelManager = nil;
-+ (ALModelManager *)sharedInstance
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _modelManager = [[ALModelManager alloc] initModelManager];
-    });
-    return _modelManager;
-}
-
-+ (void)releaseInstance
-{
-    _modelManager = nil;
-#warning 옵저버 모두 지우는 로직 추가해야 함
-    //    for (NSDictionary *dicObserverInfo in _observationManager) {
-    //        [dicObserverInfo[@"someKey"] removeAllObservations];
-    //    }
-}
-
-- (id)initModelManager
-{
-    self = [super init];
-    if (self) {
-        // do something~
-        _observationManager = [[NSMutableDictionary alloc] initWithCapacity:10];
-    }
-    return self;
-}
 
 #pragma mark -
-#pragma mark - Init & Dealloc
-- (id)init
-{
-    NSAssert(NO, @"Can`t create instance With Init Method");
-    return nil;
-}
-
-- (void)dealloc
-{
-    _observationManager = nil;
-}
-
+#pragma mark - Public Method
 /**
  *  감시 할 대상에 대한 정보를 keypath를 통해 받아서 대상에 변경이 일어나면 block 코드를 호출 한다.
  *  ! 주의 : '*'로 모든 프로퍼티를 가져 올 수 있으나 '*'은 가장 마지막에만 있어야 한다.
@@ -78,14 +37,14 @@ static ALModelManager *_modelManager = nil;
  *
  *  @return Observer를 적용한 KeyPath 목록
  */
-- (void)addKVOForOwner:(id)owner keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
+- (void)addCustomKVOForOwner:(id)owner object:(id)object keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
 {
     
-    [self addKVOForObject:self owner:owner keyPaths:keyPaths block:responseBlock];
+    
     
 }
 
-- (void)addKVOForObject:(id)object owner:(id)owner keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
+- (void)addCollectionKVOForOwner:(id)owner object:(id)object keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
 {
     
     NSParameterAssert(owner);
@@ -133,9 +92,14 @@ static ALModelManager *_modelManager = nil;
     [self removeAllObservations];
 }
 
-- (void)removeAllObserversForObject:(id)object owner:(id)owner
+- (BOOL)removeAllObserverForOwner:(id)owner
 {
-    
+    return YES;
+}
+
+- (BOOL)removeAllObserverForOwner:(id)owner keyPaths:(NSString *)keyPaths
+{
+    return YES;
 }
 
 #pragma mark -
@@ -149,7 +113,7 @@ static ALModelManager *_modelManager = nil;
     for (NSString *strKeyPath in arrKeyPaths) {
         
         // KeyPath 내부에 *가 포함되어 있다면 모든 프로퍼티 이름을 가져와 KeyPath 생성
-        if ([self ContainString:strKeyPath onText:@"*"]) {
+        if ([self containString:strKeyPath onText:@"*"]) {
             
             NSString *propertyKeyPath = [strKeyPath stringByReplacingOccurrencesOfString:@".*" withString:@""];
             
@@ -181,9 +145,66 @@ static ALModelManager *_modelManager = nil;
     return YES;
 }
 
-- (BOOL)ContainString:(NSString *)strSearch onText:(NSString *)strText
+- (BOOL)containString:(NSString *)strSearch onText:(NSString *)strText
 {
     return [strText rangeOfString:strSearch options:NSCaseInsensitiveSearch].location == NSNotFound ? FALSE : TRUE;
+}
+
+#pragma mark -
+#pragma mark SIngleton Create & Release
+static ALModelManager *_modelManager = nil;
++ (ALModelManager *)sharedInstance
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _modelManager = [[ALModelManager alloc] initModelManager];
+    });
+    return _modelManager;
+}
+
++ (void)releaseInstance
+{
+    _modelManager = nil;
+#warning 옵저버 모두 지우는 로직 추가해야 함
+    //    for (NSDictionary *dicObserverInfo in _observationManager) {
+    //        [dicObserverInfo[@"someKey"] removeAllObservations];
+    //    }
+}
+
+#pragma mark -
+#pragma mark - Active&Terminate
+- (void)didActiveManager
+{
+    
+}
+
+- (void)didTerminateManager
+{
+    
+}
+
+#pragma mark -
+#pragma mark - Init & Dealloc
+
+- (id)initModelManager
+{
+    self = [super init];
+    if (self) {
+        // do something~
+        _observationManager = [[NSMutableDictionary alloc] initWithCapacity:10];
+    }
+    return self;
+}
+
+- (id)init
+{
+    NSAssert(NO, @"Can`t create instance With Init Method");
+    return nil;
+}
+
+- (void)dealloc
+{
+    _observationManager = nil;
 }
 
 @end

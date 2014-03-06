@@ -31,28 +31,6 @@
  */
 + (BOOL)hasPropertyName:(NSString *)name;
 
-
-/**
- *  특정 Property가 가지고 있는 getterSelector를 반환하는 메소드
- *  getter를 직접 만들지 않았다면 Xcode가 자동으로 생성해주는 getter가 반환한다.
- *
- *  @param name 셀렉터를 찾을 Property 이름
- *
- *  @return 해당 Property의 getterSelector를 반환
- */
-+ (SEL)getterForPropertyName:(NSString *)name;
-
-/**
- *  특정 Property가 가지고 있는 setterSelector를 반환하는 메소드
- *  setter를 직접 만들지 않았다면 Xcode가 자동으로 생성해주는 setter가 반환한다.
- *
- *  @param name 셀렉터를 찾을 Property 이름
- *
- *  @return 해당 Property의 setterSelector를 반환
- */
-+ (SEL)setterForPropertyName:(NSString *)name;
-
-
 /**
  *  객체의 Property들의 이름들을 배열로 반환하는 메소드
  *
@@ -78,15 +56,7 @@
 - (BOOL)hasProperties;
 - (BOOL)hasPropertyName:(NSString *)name;
 
-- (SEL)getterForPropertyName:(NSString *)name;
-- (SEL)setterForPropertyName:(NSString *)name;
-
 - (NSArray *)propertyNames;
 - (NSArray *)propertyNamesWithSuperInquiry:(BOOL)superInquiry;
 
 @end
-
-// getter/setter를 위한 메소드
-// 위와는 다르게 NULL을 명시적으로 사용한다. 이유는 Core를 활용하여 C와 관련 된 메소드를 사용하였기 때문에!
-SEL selectorForPropertyGetter(objc_property_t property);
-SEL selectorForPropertySetter(objc_property_t property);

@@ -7,14 +7,9 @@
 //
 // 출처 - https://github.com/rayh/kvo-block-binding
 
-#import <Foundation/Foundation.h>
 
 #import "NSObject+Observation.h"
-
-
 #import "NSObject+ObjectObserver.h"
-
-
 #import "NSObject+ObjectBinding.h"
 /*
  Observation Example

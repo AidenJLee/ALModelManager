@@ -38,7 +38,7 @@
     
     if(self.valid && (__bridge id)context == self) {
         
-        // 데이터 변화가 있을 때만 블럭을 호출
+        // 데이터 변화가 있을 때만 블럭을 호출 없으면 흘러보냄 
         if (![[change valueForKey:NSKeyValueChangeNewKey] isEqual:[change valueForKey:NSKeyValueChangeOldKey]]) {
             self.block(self.keyPath, self.source, change);
         }
