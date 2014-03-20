@@ -24,6 +24,7 @@
 		E83DC15518BDDECF001256C8 /* Dog.m in Sources */ = {isa = PBXBuildFile; fileRef = E83DC15418BDDECF001256C8 /* Dog.m */; };
 		E8644B7418DA70910066CFDD /* SuperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E8644B7318DA70910066CFDD /* SuperModel.m */; };
 		E8644B7818DA70DE0066CFDD /* NSObject+Properties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8644B7718DA70DE0066CFDD /* NSObject+Properties.m */; };
+		E8644B7C18DA72CE0066CFDD /* NSMutableArray+KVONotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = E8644B7B18DA72CE0066CFDD /* NSMutableArray+KVONotifications.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,8 @@
 		E8644B7318DA70910066CFDD /* SuperModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperModel.m; sourceTree = "<group>"; };
 		E8644B7618DA70DE0066CFDD /* NSObject+Properties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Properties.h"; sourceTree = "<group>"; };
 		E8644B7718DA70DE0066CFDD /* NSObject+Properties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Properties.m"; sourceTree = "<group>"; };
+		E8644B7A18DA72CE0066CFDD /* NSMutableArray+KVONotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+KVONotifications.h"; sourceTree = "<group>"; };
+		E8644B7B18DA72CE0066CFDD /* NSMutableArray+KVONotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+KVONotifications.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +175,7 @@
 		0F18F91E18A9215500D7A0F5 /* ALModelManager */ = {
 			isa = PBXGroup;
 			children = (
+				E8644B7918DA72CE0066CFDD /* ALMutableArray */,
 				E8644B7518DA70DE0066CFDD /* ALProperties */,
 				0F647C2B18A9CAC300EC960A /* ALObserversAndBinders */,
 				0F18F92218A9215500D7A0F5 /* ALModelManager.h */,
@@ -242,6 +246,15 @@
 				E8644B7718DA70DE0066CFDD /* NSObject+Properties.m */,
 			);
 			path = ALProperties;
+			sourceTree = "<group>";
+		};
+		E8644B7918DA72CE0066CFDD /* ALMutableArray */ = {
+			isa = PBXGroup;
+			children = (
+				E8644B7A18DA72CE0066CFDD /* NSMutableArray+KVONotifications.h */,
+				E8644B7B18DA72CE0066CFDD /* NSMutableArray+KVONotifications.m */,
+			);
+			path = ALMutableArray;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,6 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E83DC15518BDDECF001256C8 /* Dog.m in Sources */,
+				E8644B7C18DA72CE0066CFDD /* NSMutableArray+KVONotifications.m in Sources */,
 				E816345E18C0525200DD8C62 /* Like.m in Sources */,
 				E8644B7418DA70910066CFDD /* SuperModel.m in Sources */,
 				E8644B7818DA70DE0066CFDD /* NSObject+Properties.m in Sources */,
