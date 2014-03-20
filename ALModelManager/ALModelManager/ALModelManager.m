@@ -7,36 +7,55 @@
 //
 
 #import "ALModelManager.h"
-#import "ALIntrospection.h"
-
-#import <objc/runtime.h>
-
-#define OBSERVING_TARGET_KEY @"responseTarget"
-#define OBSERVING_CALLBACK_KEY @"callbackSeletor"
-
-
-@interface ALModelManager () {
-    NSMutableDictionary *_observationManager;   // 옵저빙 객체 관리용
-}
-
-@end
 
 
 @implementation ALModelManager
 
 
 #pragma mark -
-#pragma mark - Public Method
-/**
- *  감시 할 대상에 대한 정보를 keypath를 통해 받아서 대상에 변경이 일어나면 block 코드를 호출 한다.
- *  ! 주의 : '*'로 모든 프로퍼티를 가져 올 수 있으나 '*'은 가장 마지막에만 있어야 한다.
- *
- *  @param target   콜백 대상
- *  @param keyPaths 감시 대상
- *  @param block    콜백 반환
- *
- *  @return Observer를 적용한 KeyPath 목록
- */
+#pragma mark SIngleton Create & Release
+static ALModelManager *_modelManager = nil;
++ (ALModelManager *)sharedInstance
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _modelManager = [[ALModelManager alloc] initModelManager];
+    });
+    return _modelManager;
+}
+
++ (void)releaseInstance
+{
+    _modelManager = nil;
+}
+
+
+#pragma mark -
+#pragma mark - Init & Dealloc
+
+- (id)initModelManager
+{
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
+- (id)init
+{
+    NSAssert(NO, @"Can`t create instance With Init Method");
+    return nil;
+}
+
+- (void)dealloc
+{
+    
+}
+
+@end
+
+/*
 - (void)addCustomKVOForOwner:(id)owner object:(id)object keyPaths:(NSString *)keyPaths block:(ALResponseBlock)responseBlock
 {
     
@@ -124,13 +143,13 @@
                 
                 NSString *absoluteKeyPath = [strKeyPath stringByReplacingOccurrencesOfString:@"*" withString:strPropertyKey];
                 if (![arrResponse containsObject:absoluteKeyPath]) {
-                    [arrResponse addObject:absoluteKeyPath];
+                    [arrResponse addObject:[absoluteKeyPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
                 }
                 
             }
             
         } else {
-            [arrResponse addObject:strKeyPath];
+            [arrResponse addObject:[strKeyPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
         }
         
     }
@@ -138,6 +157,7 @@
     return arrResponse;
     
 }
+
 - (BOOL)setValueForKeyPath:(NSString*)keyPath andValue:(id)Value andTargetObject:(id)object
 {
     [object setValue:Value forKeyPath:keyPath];
@@ -165,10 +185,6 @@ static ALModelManager *_modelManager = nil;
 + (void)releaseInstance
 {
     _modelManager = nil;
-#warning 옵저버 모두 지우는 로직 추가해야 함
-    //    for (NSDictionary *dicObserverInfo in _observationManager) {
-    //        [dicObserverInfo[@"someKey"] removeAllObservations];
-    //    }
 }
 
 #pragma mark -
@@ -208,3 +224,4 @@ static ALModelManager *_modelManager = nil;
 }
 
 @end
+ */

@@ -7,15 +7,12 @@
 //
 
 #import "ALObservation.h"
-#import "ALModelManagerProtocol.h"
 
-@interface ALModelManager : NSObject <ALModelManagerProtocol>
+@interface ALModelManager : NSObject
+
+// 이곳에 Data Model들을 Property로 등록한다.
 
 + (ALModelManager *)sharedInstance;
 + (void)releaseInstance;
-
-- (void)didActiveManager;
-- (void)didTerminateManager;
-
 
 @end

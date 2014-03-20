@@ -50,7 +50,7 @@
 
 #pragma mark -
 #pragma mark - Instance Method Imple
-// instance에서 바로 접근 할 수 있다록 만든 메소드 - [[myObject class] sameMethod'는 타이핑 낭비
+// instance에서 바로 접근 할 수 있다록 만든 메소드 - [[myObject class] SameMethod'는 타이핑 낭비
 // Class Method와 같은 기능이기 때문에... 아래 클릭
 // http://mirror.enha.kr/wiki/%EB%8D%94%20%EC%9D%B4%EC%83%81%EC%9D%98%20%EC%9E%90%EC%84%B8%ED%95%9C%20%EC%84%A4%EB%AA%85%EC%9D%80%20%EC%83%9D%EB%9E%B5%ED%95%9C%EB%8B%A4
 - (BOOL)hasProperties;
