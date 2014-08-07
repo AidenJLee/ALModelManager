@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Almodelmanager : Observe Objective-C model properties using KVO">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Almodelmanager</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/AidenJLee/ALModelManager">View on GitHub</a>
+
+          <h1 id="project_title">Almodelmanager</h1>
+          <h2 id="project_tagline">Observe Objective-C model properties using KVO</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/AidenJLee/ALModelManager/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/AidenJLee/ALModelManager/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="almodelmanager" class="anchor" href="#almodelmanager"><span class="octicon octicon-link"></span></a>ALModelManager</h1>
+
+<h2>
+<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p>This is a Observation Object model for using KVO.</p>
+
+<p>Model is so easy creation from JSON Object.</p>
+
+<h2>
+<a name="waring" class="anchor" href="#waring"><span class="octicon octicon-link"></span></a>Waring</h2>
+
+<p>be carefully Using This.</p>
+
+<p>KVO is not a Simple and hard for Debuging.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<h4>
+<a name="first" class="anchor" href="#first"><span class="octicon octicon-link"></span></a>FIRST,</h4>
+
+<p>Define to Model from Super class. (model is SubClass for SuperModel)</p>
+
+<h6>
+<a name="likeh" class="anchor" href="#likeh"><span class="octicon octicon-link"></span></a>Like.h</h6>
+
+<p>create model like this. </p>
+
+<pre><code>#import "SuperModel.h"
+@interface Like : SuperModel
+@property (strong, nonatomic) NSString *movie;
+@property (strong, nonatomic) NSString *sports;
+@property (strong, nonatomic) NSString *something;
+@end
+</code></pre>
+
+<p>and make instance of model using '- (id)initWithDictionary' method not '- (id)init'</p>
+
+<p>more sample &amp; Information : User.h/User.m</p>
+
+<h4>
+<a name="second" class="anchor" href="#second"><span class="octicon octicon-link"></span></a>SECOND,</h4>
+
+<p>imort ALModelManager and declared DataModel`s (Property)</p>
+
+<h6>
+<a name="almodelmanagerh" class="anchor" href="#almodelmanagerh"><span class="octicon octicon-link"></span></a>ALModelManager.h</h6>
+
+<pre><code>@interface ALModelManager : NSObject
+// Here!
+@property (strong, nonatomic) Like *likes;
+....
++ (ALModelManager *)sharedInstance;
++ (void)releaseInstance;
+@end
+</code></pre>
+
+<h4>
+<a name="third" class="anchor" href="#third"><span class="octicon octicon-link"></span></a>THIRD,</h4>
+
+<p>add Observation and Remove Observation </p>
+
+<h6>
+<a name="viewcontrollerm-file" class="anchor" href="#viewcontrollerm-file"><span class="octicon octicon-link"></span></a>Viewcontroller.m file</h6>
+
+<pre><code>- (id)initWithCoder:(NSCoder *)aDecoder
+{
+  self = [super initWithCoder:aDecoder];
+  if (self) {
+      _alt = [[ALTransaction alloc] initWithTarget:self
+                                   successSelector:@selector(recieveSuccess:)
+                                   failureSelector:@selector(recieveFailure:)];
+  }
+  return self;
+}
+- (void)recieveSuccess:(id)result
+{
+}
+- (void)recieveFailure:(id)result
+{
+}
+</code></pre>
+
+<h4>
+<a name="last" class="anchor" href="#last"><span class="octicon octicon-link"></span></a>LAST,</h4>
+
+<p>don`t forget Remove all KVO.</p>
+
+<h6>
+<a name="appdelegatem" class="anchor" href="#appdelegatem"><span class="octicon octicon-link"></span></a>AppDelegate.m</h6>
+
+<pre><code>- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [self removeAllObservations];
+    [self removeAllObservers];
+}
+</code></pre>
+
+<h4>
+<a name="thats-it" class="anchor" href="#thats-it"><span class="octicon octicon-link"></span></a>that`s it!</h4>
+
+<h2>
+<a name="detail-info" class="anchor" href="#detail-info"><span class="octicon octicon-link"></span></a>Detail Info</h2>
+
+<h2>
+<a name="bugs--feature-requests" class="anchor" href="#bugs--feature-requests"><span class="octicon octicon-link"></span></a>Bugs / Feature Requests</h2>
+
+<p>Think you’ve found a bug? </p>
+
+<p>Please open a case in issue page.</p>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>GNU GPL V2 - Read a Lincense file.</p>
+
+<h2>
+<a name="references" class="anchor" href="#references"><span class="octicon octicon-link"></span></a>References</h2>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Almodelmanager maintained by <a href="https://github.com/AidenJLee">AidenJLee</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
